@@ -26,20 +26,6 @@ export default function Home() {
   const [showCameraModal, setShowCameraModal] = useState<boolean>(false);
   const [showOnboarding, setShowOnboarding] = useState<boolean>(false);
 
-  // Global Tamagotchi Pet State
-  const [petState, setPetState] = useState<PetState>({
-    name: 'DRAGO',
-    species: 'Cyber Dragon',
-    level: 4,
-    currentXp: 650,
-    nextLevelXp: 1000,
-    hp: 85,
-    maxHp: 100,
-    str: 145,
-    evolutionStage: 'Giai Đoạn 1: Novice',
-    mood: 'energetic',
-  });
-
   // Global Mock Workout State
   const [completedSetsMap, setCompletedSetsMap] = useState<{ [id: string]: number }>({
     'ex-1': 4, // 4/4 sets done
@@ -54,6 +40,31 @@ export default function Home() {
     protein: { current: 142, total: 175 },
     carb: { current: 205, total: 260 },
     fat: { current: 51, total: 65 },
+  });
+
+  // Calculate HP Regen from exact Macro KPI formula:
+  // HP% = 100 * (0.25 * rKcal + 0.25 * rProtein + 0.25 * rCarb + 0.25 * rFat)
+  const calculatePetHp = (macros: typeof macroState) => {
+    if (macros.calories.current === 0 && macros.protein.current === 0) return 0;
+    const rKcal = Math.min(1.0, macros.calories.current / macros.calories.total);
+    const rPro = Math.min(1.0, macros.protein.current / macros.protein.total);
+    const rCarb = Math.min(1.0, macros.carb.current / macros.carb.total);
+    const rFat = Math.min(1.0, macros.fat.current / macros.fat.total);
+    return Math.round(100 * (0.25 * rKcal + 0.25 * rPro + 0.25 * rCarb + 0.25 * rFat));
+  };
+
+  // Global Tamagotchi Pet State
+  const [petState, setPetState] = useState<PetState>({
+    name: 'DRAGO',
+    species: 'Cyber Dragon',
+    level: 4,
+    currentXp: 650,
+    nextLevelXp: 1000,
+    hp: 79, // Initial calculated from current macros (1850/2400, 142/175, 205/260, 51/65)
+    maxHp: 100,
+    str: 145,
+    evolutionStage: 'Giai Đoạn 1: Novice',
+    mood: 'energetic',
   });
 
   // Toggle/increment set for an exercise + Give XP & STR to Pet!
@@ -90,20 +101,23 @@ export default function Home() {
     });
   };
 
-  // Handle new meal logged from camera or recipe + Restore Pet Energy!
+  // Handle new meal logged from camera or recipe + Regenerate Pet HP by exact Formula!
   const handleConfirmMealFromCamera = (meal: any) => {
-    setMacroState((prev) => ({
-      calories: { ...prev.calories, current: prev.calories.current + meal.calories },
-      protein: { ...prev.protein, current: prev.protein.current + meal.protein },
-      carb: { ...prev.carb, current: prev.carb.current + meal.carb },
-      fat: { ...prev.fat, current: prev.fat.current + meal.fat },
-    }));
+    const nextMacros = {
+      calories: { ...macroState.calories, current: macroState.calories.current + meal.calories },
+      protein: { ...macroState.protein, current: macroState.protein.current + meal.protein },
+      carb: { ...macroState.carb, current: macroState.carb.current + meal.carb },
+      fat: { ...macroState.fat, current: macroState.fat.current + meal.fat },
+    };
 
-    // Feed Pet: Restore HP and add XP
+    setMacroState(nextMacros);
+
+    // Recalculate Pet HP by exact formula and add bonus XP for feeding!
+    const regeneratedHp = calculatePetHp(nextMacros);
     setPetState((p) => ({
       ...p,
-      hp: Math.min(p.maxHp, p.hp + 15),
-      currentXp: Math.min(p.nextLevelXp, p.currentXp + 40),
+      hp: regeneratedHp,
+      currentXp: Math.min(p.nextLevelXp, p.currentXp + 45),
     }));
   };
 

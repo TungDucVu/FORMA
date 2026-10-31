@@ -63,10 +63,14 @@ Một bước chuyển mình đột phá: **Nhân vật ảo (Avatar/Pet) chính
 ### 4.1. Cơ Chế Cốt Lõi Của Nhân Vật (Core Mechanics)
 
 #### A. Chỉ Số Sinh Tồn & Trạng Thái (Stats & States):
-1. **HP / Energy (Năng lượng):**
-   - Phụ thuộc trực tiếp vào việc ngủ đủ giấc và ăn uống đúng Macro/Calo mục tiêu.
-   - Khi năng lượng $\ge 90\%$: Nhân vật tràn đầy sức sống, mắt sáng, sẵn sàng tập luyện.
-   - Khi thiếu hụt calo/bỏ bữa: Năng lượng sụt giảm, nhân vật trở nên uể oải.
+1. **HP / Energy (Năng lượng sinh tồn):**
+   - Bắt đầu ngày ở mức 100%, sau đó giảm dần trong ngày về 0% (nhu cầu trao đổi chất sinh tồn).
+   - Hồi phục HP (HP Regen) khi người dùng log các bữa ăn đạt chuẩn dinh dưỡng:
+     $$\text{HP\%} = 100 \times \left(a \times \frac{\text{kcal}}{\text{target\_kcal}} + b \times \frac{\text{protein}}{\text{target\_protein}} + c \times \frac{\text{carb}}{\text{target\_carb}} + d \times \frac{\text{fat}}{\text{target\_fat}}\right)$$
+     với $a = b = c = d = 0.25$ (trọng số bằng nhau cho cả 4 thành phần).
+   - **Đạt 100% KPI Macro trong ngày:** Pet hồi phục trọn vẹn **100% HP**.
+   - **Nếu ăn chưa đủ:** Pet bị sụt giảm HP theo tỷ lệ nhưng không về 0.
+   - **Nếu hoàn toàn không log bữa ăn (0% target):** Pet cạn kiệt về **0% HP** (trạng thái đói lả nhắc nhở nạp năng lượng).
 2. **Strength (Sức mạnh - STR):**
    - Tăng lũy tiến mỗi khi người dùng hoàn thành các bài tập trong Feature 2 (Check/Swipe to Done).
    - Tích lũy điểm sức mạnh để mở khóa các kỹ năng vận động (Skills) và danh hiệu lực sĩ.
@@ -74,6 +78,13 @@ Một bước chuyển mình đột phá: **Nhân vật ảo (Avatar/Pet) chính
    - Thay đổi hình ảnh trực quan dựa trên progress thực tế của user:
      - Nhân vật săn chắc, nét cơ, lộ cơ bụng khi user giảm mỡ / tăng cơ thành công.
      - Nhân vật chuyển sang trạng thái ì ạch, thở dốc nếu user bỏ tập quá 3 ngày liên tiếp.
+
+#### B. Thiết Kế Tab Hôm Nay Tinh Giản (2 Card Duy Nhất - Pet Làm Trung Tâm):
+- **Card 1: Card Streak (Nằm ở trên cùng):** Lịch chuỗi ngày tập liên tục.
+- **Card 2: Hero Pet Card (Borderless):**
+  - Chạm vào Pet để tương tác hội thoại và xem animation gồng cơ.
+  - **Wheel HP:** Vòng tròn HP năng lượng. Khi bấm vào sẽ bật Popup hiển thị Vòng tròn Macro 4 màu (Kcal, Protein, Carb, Fat).
+  - **Wheel EXP:** Vòng tròn EXP tiến độ. Khi bấm vào sẽ bật Popup hiển thị Vòng tròn Tiến độ Tập luyện (% và số set hoàn thành).
 
 #### B. Vòng Lặp Phản Hồi & Thưởng (Feedback Loop):
 - **Tập luyện (Workout Complete):** ➔ Nhận XP + Thể lực cho Pet ➔ Nhân vật lên Level / Học được Skill mới.
