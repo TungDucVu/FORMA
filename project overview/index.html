@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMA - Intelligence Behind Your Transformation | Project Overview</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti for interactive demo -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              lime: '#10B981',
+              neon: '#22C55E',
+              cyan: '#06B6D4',
+              orange: '#F97316',
+              dark: '#090D16',
+              card: '#111827',
+              border: 'rgba(255, 255, 255, 0.08)',
+            }
+          },
+          boxShadow: {
+            'glow-lime': '0 0 35px -5px rgba(16, 185, 129, 0.3)',
+            'glow-cyan': '0 0 35px -5px rgba(6, 182, 212, 0.3)',
+            'glow-orange': '0 0 35px -5px rgba(249, 115, 22, 0.3)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #070A11;
+      color: #F3F4F6;
+      overflow: hidden;
+      user-select: none;
+    }
+    
+    .slide {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.96) translateY(12px);
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Ambient lighting gradients */
+    .ambient-glow-1 {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow-2 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      filter: blur(70px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Custom scrollbar for slide internal scroll if needed */
+    .slide-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .slide-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    /* Glass card utility */
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-card-hover {
+      transition: all 0.25s ease;
+    }
+    .glass-card-hover:hover {
+      border-color: rgba(16, 185, 129, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Grid pattern background */
+    .bg-grid-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* Print & PDF Export Styles */
+    @media print {
+      @page {
+        size: 16in 9in;
+        margin: 0;
+      }
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      html, body {
+        background-color: #070A11 !important;
+        overflow: visible !important;
+        height: auto !important;
+        width: 100% !important;
+        display: block !important;
+      }
+      header, footer, #grid-modal, .ambient-glow-1, .ambient-glow-2, .no-print {
+        display: none !important;
+      }
+      main {
+        display: block !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        position: static !important;
+      }
+      .slide {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: relative !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        max-height: 100vh !important;
+        transform: none !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+        break-after: page !important;
+        box-sizing: border-box !important;
+        padding: 2.5rem 3.5rem !important;
+        overflow: hidden !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .slide:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased h-screen w-screen overflow-hidden flex flex-col justify-between relative bg-grid-pattern">
+
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow-1 -top-40 -left-40"></div>
+  <div class="ambient-glow-2 -bottom-40 -right-40"></div>
+
+  <!-- TOP HEADER / NAV BAR -->
+  <header class="w-full z-40 px-8 py-5 flex items-center justify-between border-b border-white/5 bg-brand-dark/40 backdrop-blur-md">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-400 flex items-center justify-center font-bold text-black shadow-glow-lime">
+        <i data-lucide="zap" class="w-5 h-5 fill-black"></i>
+      </div>
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="font-extrabold text-xl tracking-wider text-white">FORMA</span>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono font-medium">BLUEPRINT</span>
+        </div>
+        <p class="text-[11px] text-gray-400 font-medium hidden sm:block">Intelligence Behind Your Transformation</p>
+      </div>
+    </div>
+
+    <!-- Quick Tools & Slide Counter -->
+    <div class="flex items-center space-x-3">
+      <button onclick="window.print()" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-400 hover:text-white bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 transition shadow-glow-lime/20" title="Xuất PDF / In slide (P)">
+        <i data-lucide="printer" class="w-4 h-4"></i>
+        <span class="hidden sm:inline">Export PDF (P)</span>
+      </button>
+
+      <button onclick="toggleGridOverview()" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+        <span class="hidden md:inline">Overview (G)</span>
+      </button>
+
+      <button onclick="toggleFullScreen()" class="p-2 rounded-lg text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition" title="Toggle Fullscreen (F)">
+        <i data-lucide="maximize" class="w-4 h-4"></i>
+      </button>
+
+      <div class="font-mono text-xs text-gray-400 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 flex items-center space-x-1">
+        <span id="current-slide-num" class="text-emerald-400 font-bold text-sm">01</span>
+        <span>/</span>
+        <span id="total-slide-num">08</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- SLIDES WRAPPER -->
+  <main class="relative flex-1 w-full max-w-7xl mx-auto px-6 py-4 flex items-center justify-center overflow-hidden z-10">
+
+    <!-- ========================================== -->
+    <!-- SLIDE 1: HERO / COVER -->
+    <!-- ========================================== -->
+    <section class="slide active flex flex-col justify-center items-center text-center px-4" data-index="1" data-title="Giới thiệu FORMA">
+      <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-6 animate-pulse">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span>PROJECT BLUEPRINT & PRODUCT VISION</span>
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white max-w-4xl leading-tight">
+        FORMA <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">AI</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-300 font-medium mt-3 tracking-wide max-w-2xl">
+        Intelligence Behind Your Transformation
+      </p>
+
+      <p class="text-sm md:text-base text-gray-400 max-w-2xl mt-5 leading-relaxed">
+        Hệ sinh thái AI Fitness & Nutrition thế hệ mới: Cá nhân hóa tuyệt đối, thúc đẩy hành động tức thì (<span class="text-white font-medium">Action-driven</span>) và khơi gợi cảm giác chinh phục (<span class="text-emerald-400 font-medium">Feeling of Accomplishment</span>).
+      </p>
+
+      <!-- Key Stat Pills -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10 w-full max-w-3xl">
+        <div class="glass-card p-4 rounded-2xl text-left border-l-4 border-l-emerald-500">
+          <div class="text-xs font-mono text-gray-400 uppercase">Core Loop</div>
+          <div class="text-lg font-bold text-white mt-1">3 Pha Liền Mạch</div>
+          <div class="text-[11px] text-gray-400 mt-0.5">Onboard ➔ Gen ➔ Execute</div>
+        </div>
+        <div class="glass-card p-4 rounded-2xl text-left border-l-4 border-l-cyan-500">
+          <div class="text-xs font-mono text-gray-400 uppercase">AI Engine</div>
+          <div class="text-lg font-bold text-white mt-1">Vision + LLM</div>
+          <div class="text-[11px] text-gray-400 mt-0.5">GPT-4o & Claude 3.5 Sonnet</div>
+        </div>
+        <div class="glass-card p-4 rounded-2xl text-left border-l-4 border-l-amber-500">
+          <div class="text-xs font-mono text-gray-400 uppercase">Architecture</div>
+          <div class="text-lg font-bold text-white mt-1">FastAPI + Next.js</div>
+          <div class="text-[11px] text-gray-400 mt-0.5">Capacitor Native Packaging</div>
+        </div>
+        <div class="glass-card p-4 rounded-2xl text-left border-l-4 border-l-purple-500">
+          <div class="text-xs font-mono text-gray-400 uppercase">Experience</div>
+          <div class="text-lg font-bold text-white mt-1">Mobile-First</div>
+          <div class="text-[11px] text-gray-400 mt-0.5">Tối ưu Safari iOS & Haptic</div>
+        </div>
+      </div>
+
+      <div class="mt-8 flex items-center space-x-3 text-xs text-gray-500">
+        <span>Sử dụng phím <kbd class="px-2 py-0.5 rounded bg-white/10 text-gray-300 font-mono">→</kbd> hoặc nút bên dưới để bắt đầu</span>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE 2: CORE LOOP & PRODUCT PHILOSOPHY -->
+    <!-- ========================================== -->
+    <section class="slide flex flex-col justify-center px-4" data-index="2" data-title="Product Overview & Core Loop">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="flex items-center space-x-2 text-emerald-400 text-xs font-mono uppercase tracking-wider mb-2">
+          <i data-lucide="repeat" class="w-4 h-4"></i>
+          <span>01 / PRODUCT ARCHITECTURE & VALUE LOOP</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">Vòng Lặp Sản Phẩm (Core Loop)</h2>
+        <p class="text-gray-400 text-sm mt-1 max-w-3xl">Thiết kế tối ưu trải nghiệm người dùng, giảm thiểu tối đa ma sát ghi chép thủ công và duy trì động lực bền bỉ.</p>
+
+        <!-- 3 Step Loop Visual -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 relative">
+          <!-- Step 1 -->
+          <div class="glass-card glass-card-hover p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 text-7xl font-extrabold text-white/[0.03] select-none">01</div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+              <i data-lucide="user-check" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-mono text-emerald-400 font-semibold tracking-wider uppercase">Khởi Đầu</span>
+            <h3 class="text-xl font-bold text-white mt-1">Onboarding & Assessment</h3>
+            <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+              Thu thập body metrics (cân nặng, chiều cao, bodyfat), mức độ vận động và mục tiêu cụ thể (Tăng cơ, Giảm mỡ, Tái cấu trúc cơ thể).
+            </p>
+            <div class="mt-4 pt-4 border-t border-white/5 flex items-center text-xs text-gray-300">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 mr-1.5"></i>
+              Đầu vào chuẩn hóa dạng JSON
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="glass-card glass-card-hover p-6 rounded-2xl relative overflow-hidden group border-cyan-500/30 shadow-glow-cyan/20">
+            <div class="absolute -right-4 -bottom-4 text-7xl font-extrabold text-white/[0.03] select-none">02</div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4">
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-mono text-cyan-400 font-semibold tracking-wider uppercase">Bộ Não AI</span>
+            <h3 class="text-xl font-bold text-white mt-1">AI Generation Engine</h3>
+            <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+              Tổng hợp lộ trình Workout & Dinh dưỡng Macro siêu cá nhân hóa. Tự động tính toán khối lượng tạ, sets, reps, và thâm hụt/thặng dư calo tối ưu.
+            </p>
+            <div class="mt-4 pt-4 border-t border-white/5 flex items-center text-xs text-gray-300">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-400 mr-1.5"></i>
+              Lộ trình toàn diện, thích ứng linh hoạt
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="glass-card glass-card-hover p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 text-7xl font-extrabold text-white/[0.03] select-none">03</div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+              <i data-lucide="flame" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-mono text-amber-400 font-semibold tracking-wider uppercase">Thực Thi Hàng Ngày</span>
+            <h3 class="text-xl font-bold text-white mt-1">Daily Execution</h3>
+            <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+              Tập luyện tương tác trực tiếp (Check/Swipe) + Ghi nhận dinh dưỡng thông minh bằng camera AI + So sánh tiến độ thị giác định kỳ.
+            </p>
+            <div class="mt-4 pt-4 border-t border-white/5 flex items-center text-xs text-gray-300">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 mr-1.5"></i>
+              Gamification & Dopamine Loop
+            </div>
+          </div>
+        </div>
+
+        <!-- Philosophy quote bar -->
+        <div class="mt-6 p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <i data-lucide="award" class="w-5 h-5 text-emerald-400"></i>
+            <span class="text-xs md:text-sm text-gray-300 font-medium">Triết lý thiết kế: <strong class="text-white">Action-Driven</strong> (Thúc đẩy làm ngay) kết hợp <strong class="text-emerald-400">Feeling of Accomplishment</strong> (Tạo cảm giác chinh phục mỗi ngày).</span>
+          </div>
+          <span class="hidden md:inline-block text-xs font-mono text-gray-500">Core Loop Flow</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE 3: FEATURE 1 & 2 - WORKOUT SUITE -->
+    <!-- ========================================== -->
+    <section class="slide flex flex-col justify-center px-4" data-index="3" data-title="AI Workout Plan & Interactive Session">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="flex items-center space-x-2 text-emerald-400 text-xs font-mono uppercase tracking-wider mb-2">
+          <i data-lucide="dumbbell" class="w-4 h-4"></i>
+          <span>02 / INTERACTIVE TRAINING EXPERIENCE</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">AI Workout Plan & Interactive Session</h2>
+        <p class="text-gray-400 text-sm mt-1 max-w-3xl">Giao diện tập luyện Gym trực quan hóa cao cấp, hỗ trợ tương tác thực tế và phản hồi thời gian thực.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6 items-center">
+          
+          <!-- Left details column (7 cols) -->
+          <div class="lg:col-span-7 space-y-4">
+            
+            <div class="glass-card p-4 rounded-xl border-l-4 border-l-emerald-500">
+              <div class="flex items-start space-x-3">
+                <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 mt-1">
+                  <i data-lucide="credit-card" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-base font-bold text-white">Visual Exercise Cards</h4>
+                  <p class="text-xs text-gray-400 mt-1">
+                    Mỗi bài tập được thiết kế như một thẻ trực quan: GIF minh họa kỹ thuật chuẩn, số Sets/Reps cụ thể, Target muscles (nhóm cơ tác động) và Calo ước tính tiêu hao.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border-l-4 border-l-cyan-500">
+              <div class="flex items-start space-x-3">
+                <div class="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 mt-1">
+                  <i data-lucide="check-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-base font-bold text-white">Interactive Execution (Check / Swipe to Done)</h4>
+                  <p class="text-xs text-gray-400 mt-1">
+                    Cơ chế Swipe hoặc Tap to Done cho từng set bài tập. Thanh tiến độ buổi tập (Workout Progress Bar) cập nhật sống động tức thì, duy trì nhịp tập hứng khởi.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border-l-4 border-l-purple-500">
+              <div class="flex items-start space-x-3">
+                <div class="p-2 rounded-lg bg-purple-500/10 text-purple-400 mt-1">
+                  <i data-lucide="message-square-heart" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <h4 class="text-base font-bold text-white">Real-Time AI Feedback Loop</h4>
+                    <span class="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 font-mono">ĐỘC QUYỀN</span>
+                  </div>
+                  <p class="text-xs text-gray-400 mt-1">
+                    Người dùng phản hồi trực tiếp ngay trong phòng tập: <em class="text-gray-200">"đau khớp gối"</em>, <em class="text-gray-200">"máy tạ đang bận"</em>, <em class="text-gray-200">"tạ quá nặng/quá nhẹ"</em> ➔ AI tinh chỉnh bài tập thay thế ngay trong 2 giây.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Interactive Mockup (5 cols) -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="w-full max-w-sm rounded-3xl bg-slate-900 border-2 border-white/10 p-5 shadow-2xl relative overflow-hidden">
+              <div class="flex items-center justify-between text-xs text-gray-400 mb-3 pb-2 border-b border-white/5">
+                <span class="font-mono text-emerald-400 font-semibold">SESSION #14 • CHEST & TRICEPS</span>
+                <span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-[10px]">LIVE</span>
+              </div>
+
+              <!-- Workout Progress -->
+              <div class="space-y-1 mb-4">
+                <div class="flex justify-between text-xs font-medium">
+                  <span class="text-gray-300">Tiến độ buổi tập</span>
+                  <span class="text-emerald-400 font-mono" id="mock-progress-text">3 / 5 Bài Tập (60%)</span>
+                </div>
+                <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                  <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full w-[60%] transition-all duration-500"></div>
+                </div>
+              </div>
+
+              <!-- Exercise Card Mockup -->
+              <div class="bg-slate-800/80 rounded-2xl p-4 border border-white/10 relative">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-medium">Bài 04: Incline Dumbbell Press</span>
+                  <span class="text-[11px] text-gray-400">🔥 ~120 kcal</span>
+                </div>
+                
+                <div class="mt-3 flex items-center space-x-3 bg-black/40 p-2.5 rounded-xl border border-white/5">
+                  <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                  </div>
+                  <div>
+                    <div class="text-xs font-bold text-white">Cơ ngực trên (Upper Pectorals)</div>
+                    <div class="text-[11px] text-gray-400 font-mono">4 Sets • 8-10 Reps • 24kg</div>
+                  </div>
+                </div>
+
+                <!-- Interactive swipe button simulated -->
+                <button onclick="triggerWorkoutDemo()" class="mt-4 w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-bold text-xs flex items-center justify-center space-x-2 shadow-glow-lime hover:opacity-90 transition">
+                  <i data-lucide="check" class="w-4 h-4"></i>
+                  <span>SWIPE / TAP HOÀN THÀNH SET 4</span>
+                </button>
+              </div>
+
+              <!-- Instant AI Helper pill -->
+              <div class="mt-3 bg-purple-950/40 border border-purple-500/30 rounded-xl p-2.5 flex items-center justify-between text-xs">
+                <div class="flex items-center space-x-2 text-purple-300">
+                  <i data-lucide="bot" class="w-4 h-4"></i>
+                  <span class="text-[11px]">Đau vai trước? Bấm để đổi bài</span>
+                </div>
+                <span class="text-[10px] text-purple-400 font-mono underline cursor-pointer hover:text-purple-200">Đổi ngay</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE 4: FEATURE 3 - MACRO & FOOD TRACKER -->
+    <!-- ========================================== -->
+    <section class="slide flex flex-col justify-center px-4" data-index="4" data-title="AI Macro Planner & Smart Vision Logging">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="flex items-center space-x-2 text-cyan-400 text-xs font-mono uppercase tracking-wider mb-2">
+          <i data-lucide="utensils" class="w-4 h-4"></i>
+          <span>03 / NUTRITION & MULTIMODAL VISION</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">AI Macro Planner & Food Tracker</h2>
+        <p class="text-gray-400 text-sm mt-1 max-w-3xl">Gạt bỏ hoàn toàn sự ức chế khi phải cân đo gõ từng gam calo. AI Vision biến việc track ăn uống thành trải nghiệm 1 chạm.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+          
+          <!-- Card 1: Visual Rings -->
+          <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4">
+                <i data-lucide="pie-chart" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-lg font-bold text-white">Visual Progress Rings & Bars</h3>
+              <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                Theo dõi trực quan thời gian thực Calories, Protein, Carbs và Fat. Tự động tính toán mức thâm hụt lý tưởng cho mục tiêu giảm mỡ hoặc thặng dư cho việc phát triển cơ bắp.
+              </p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-white/5 space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-gray-400">Calories Hôm Nay</span>
+                <span class="text-cyan-400 font-mono font-bold">1,850 / 2,200 kcal</span>
+              </div>
+              <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                <div class="bg-cyan-400 h-full w-[84%]"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Smart Vision Logging -->
+          <div class="glass-card p-6 rounded-2xl border-cyan-500/30 shadow-glow-cyan/20 flex flex-col justify-between relative">
+            <div class="absolute top-4 right-4 text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300">
+              MULTIMODAL AI
+            </div>
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+                <i data-lucide="camera" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-lg font-bold text-white">Smart Vision Logging</h3>
+              <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                Chụp ảnh đĩa thức ăn bằng camera iPhone ➔ AI Vision (GPT-4o / Claude 3.5) tự động bóc tách nguyên liệu, định lượng khẩu phần và phân giải Macro ➔ Quẹt phải (Swipe) để xác nhận trừ vào tổng ngày.
+              </p>
+            </div>
+            <div class="mt-4 p-3 rounded-xl bg-black/40 border border-white/10 text-xs">
+              <div class="flex items-center justify-between text-emerald-400 font-semibold mb-1">
+                <span>📸 Phở Bò Tái Nạm (Ước tính)</span>
+                <span>480 kcal</span>
+              </div>
+              <div class="text-[11px] text-gray-400 flex justify-between font-mono">
+                <span>P: 38g</span>
+                <span>C: 56g</span>
+                <span>F: 12g</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Dopamine Gamification -->
+          <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+                <i data-lucide="trophy" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-lg font-bold text-white">Gamification & Dopamine</h3>
+              <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+                Mỗi khi hoàn thành mục tiêu calo hoặc chuỗi streak ngày, app kích hoạt hiệu ứng pháo hoa Confetti, rung Haptic feedback trên iPhone và thông báo khích lệ để giữ chân người dùng.
+              </p>
+            </div>
+            <div class="mt-4 pt-4 border-t border-white/5">
+              <button onclick="triggerConfettiDemo()" class="w-full py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-xs border border-amber-500/30 flex items-center justify-center space-x-2 transition">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Thử hiệu ứng Confetti Streak 🎉</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE 5: FEATURE 4 - AI BODY PROGRESS -->
+    <!-- ========================================== -->
+    <section class="slide flex flex-col justify-center px-4" data-index="5" data-title="AI Body Progress & Vision Tracker">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="flex items-center space-x-2 text-purple-400 text-xs font-mono uppercase tracking-wider mb-2">
+          <i data-lucide="scan" class="w-4 h-4"></i>
+          <span>04 / COMPUTER VISION & ANTHROPOMETRICS</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">AI Body Progress Tracker</h2>
+        <p class="text-gray-400 text-sm mt-1 max-w-3xl">Đo lường sự biến đổi hình thể thực tế bằng thị giác máy tính thay vì chỉ phụ thuộc vào con số cân nặng dễ gây đánh lừa.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+          
+          <!-- Key Points -->
+          <div class="space-y-4">
+            <div class="glass-card p-5 rounded-2xl flex items-start space-x-4">
+              <div class="p-3 rounded-xl bg-purple-500/10 text-purple-400">
+                <i data-lucide="database" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-white">Timestamped Visual Vault</h4>
+                <p class="text-xs text-gray-400 mt-1">
+                  Lưu trữ có cấu trúc toàn bộ ảnh vóc dáng theo dòng thời gian (Timestamp) an toàn trên Supabase Storage, bảo mật riêng tư tuyệt đối cho người dùng.
+                </p>
+              </div>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl flex items-start space-x-4">
+              <div class="p-3 rounded-xl bg-emerald-500/10 text-emerald-400">
+                <i data-lucide="git-compare" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-white">AI Visual Composition Compare</h4>
+                <p class="text-xs text-gray-400 mt-1">
+                  Mô hình AI thị giác phân tích đường nét cơ bắp (vascularity, v-taper, eo, vai) và mỡ cơ thể qua các mốc thời gian (Tuần 1 vs Tuần 4 vs Tuần 12).
+                </p>
+              </div>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl flex items-start space-x-4">
+              <div class="p-3 rounded-xl bg-cyan-500/10 text-cyan-400">
+                <i data-lucide="trending-up" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-white">Tương quan Cân Nặng & Đánh Giá Lộ Trình</h4>
+                <p class="text-xs text-gray-400 mt-1">
+                  Kết hợp biểu đồ cân nặng biến thiên để đưa ra kết luận: Giảm mỡ giữ cơ (Recomposition) hay cần điều chỉnh thặng dư/thâm hụt calo trong tuần tiếp theo.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Comparison Showcase Card -->
+          <div class="glass-card p-6 rounded-3xl border border-white/10 relative">
+            <div class="flex items-center justify-between pb-4 border-b border-white/5">
+              <div class="flex items-center space-x-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
+                <span class="text-sm font-bold text-white">AI Anthropometric Analysis</span>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Week 8 Check-in</span>
+            </div>
+
+            <!-- Comparison Graphic Simulation -->
+            <div class="grid grid-cols-2 gap-4 my-5">
+              <div class="bg-black/50 p-4 rounded-xl border border-white/5 text-center">
+                <span class="text-[11px] font-mono text-gray-400">TUẦN 1 (KHỞI ĐIỂM)</span>
+                <div class="my-3 text-3xl font-extrabold text-gray-400">22.4%</div>
+                <div class="text-[11px] text-gray-500">Ước tính Bodyfat • 78.5 kg</div>
+              </div>
+              <div class="bg-black/50 p-4 rounded-xl border border-emerald-500/30 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-2 h-2 bg-emerald-400 rounded-full animate-ping"></div>
+                <span class="text-[11px] font-mono text-emerald-400">TUẦN 8 (HIỆN TẠI)</span>
+                <div class="my-3 text-3xl font-extrabold text-emerald-400">16.8%</div>
+                <div class="text-[11px] text-emerald-300">Ước tính Bodyfat • 74.2 kg</div>
+              </div>
+            </div>
+
+            <!-- AI Insight badge -->
+            <div class="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-xs text-purple-200 flex items-start space-x-2.5">
+              <i data-lucide="bot" class="w-4 h-4 text-purple-400 shrink-0 mt-0.5"></i>
+              <p class="leading-relaxed text-[11px]">
+                <strong>AI Kết Luận:</strong> Độ nét cơ bụng và vai trên tăng rõ rệt (+14%). Khối lượng cơ nạc được bảo toàn 98% trong giai đoạn thâm hụt calo 400 kcal/ngày.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE 6: TECH STACK ARCHITECTURE -->
+    <!-- ========================================== -->
+    <section class="slide flex flex-col justify-center px-4" data-index="6" data-title="Tech Stack Architecture">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="flex items-center space-x-2 text-emerald-400 text-xs font-mono uppercase tracking-wider mb-2">
+          <i data-lucide="layers" class="w-4 h-4"></i>
+          <span>05 / ARCHITECTURE & ROADMAP</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">Kiến Trúc Kỹ Thuật (Tech Stack)</h2>
+        <p class="text-gray-400 text-sm mt-1 max-w-3xl">Chiến lược triển khai 2 giai đoạn: Tối ưu hóa tốc độ kiểm thử (Phase 1) và đóng gói Native App phát hành đa nền tảng (Phase 2).</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          
+          <!-- Phase 1 Card -->
+          <div class="glass-card p-6 rounded-2xl border-l-4 border-l-emerald-500 relative">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
+                PHASE 1: DEV & RAPID TEST
+              </span>
+              <span class="text-[11px] text-gray-400 font-mono">MVP Testing</span>
+            </div>
+
+            <div class="space-y-3.5 text-xs">
+              <div class="flex items-start space-x-3">
+                <span class="w-20 font-bold text-gray-300 font-mono shrink-0">Frontend:</span>
+                <span class="text-gray-400"><strong class="text-white">Next.js (React) + Tailwind CSS</strong> (Mobile-first UI, tối ưu mượt mà Safari iPhone).</span>
+              </div>
+              <div class="flex items-start space-x-3">
+                <span class="w-20 font-bold text-gray-300 font-mono shrink-0">Backend:</span>
+                <span class="text-gray-400"><strong class="text-white">Python (FastAPI)</strong> hiệu năng cao, native async, tích hợp liền mạch AI ecosystem.</span>
+              </div>
+              <div class="flex items-start space-x-3">
+                <span class="w-20 font-bold text-gray-300 font-mono shrink-0">Database:</span>
+                <span class="text-gray-400"><strong class="text-white">Supabase</strong> (PostgreSQL + Supabase Storage cho ảnh dinh dưỡng và body check-in).</span>
+              </div>
+              <div class="flex items-start space-x-3">
+                <span class="w-20 font-bold text-gray-300 font-mono shrink-0">AI Engine:</span>
+                <span class="text-gray-400"><strong class="text-emerald-400">OpenAI GPT-4o & Claude 3.5 Sonnet</strong> xử lý thị giác Multimodal Vision và sinh logic plan.</span>
+              </div>
+              <div class="flex items-start space-x-3">
+                <span class="w-20 font-bold text-gray-300 font-mono shrink-0">Test Env:</span>
+                <span class="text-gray-400">Localhost nối thẳng qua <strong class="text-white">Ngrok / Cloudflare Tunnel</strong> để test trực tiếp trên điện thoại thật.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 2 Card -->
+          <div class="glass-card p-6 rounded-2xl border-l-4 border-l-cyan-500 relative flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 font-bold border border-cyan-500/20">
+                  PHASE 2: PRODUCTION MOBILE APP
+                </span>
+                <span class="text-[11px] text-gray-400 font-mono">Store Ready</span>
+              </div>
+
+              <div class="space-y-3.5 text-xs">
+                <div class="flex items-start space-x-3">
+                  <span class="w-20 font-bold text-gray-300 font-mono shrink-0">Packaging:</span>
+                  <span class="text-gray-400">Đóng gói codebase Next.js sang Native App bằng <strong class="text-white">Capacitor (by Ionic)</strong>.</span>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <span class="w-20 font-bold text-gray-300 font-mono shrink-0">Distribution:</span>
+                  <span class="text-gray-400">Phát hành chính thức lên <strong class="text-white">Apple App Store & Google Play Store</strong>.</span>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <span class="w-20 font-bold text-gray-300 font-mono shrink-0">Native APIs:</span>
+                  <span class="text-gray-400">Tận dụng Camera Native, Haptic Engine, Push Notifications, HealthKit/Google Fit sync.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Advantages box -->
+            <div class="mt-4 p-3 rounded-xl bg-white/[0.03] border border-white/5 text-[11px] text-gray-300 flex items-center space-x-2">
+              <i data-lucide="check-circle" class="w-4 h-4 text-cyan-400 shrink-0"></i>
+              <span>Tái sử dụng 95% codebase từ Web sang Mobile App, giảm 60% thời gian & chi phí phát triển.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Architecture Flow Pipeline -->
+        <div class="mt-5 p-4 rounded-xl bg-slate-900/60 border border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+          <div class="flex items-center space-x-2 text-white">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Client (iPhone Safari / Capacitor)</span>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-500 hidden sm:block"></i>
+          <div class="flex items-center space-x-2 text-white">
+            <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+            <span>FastAPI Server</span>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-500 hidden sm:block"></i>
+          <div class="flex items-center space-x-2 text-white">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+            <span>Multimodal AI Vision & Reasoning</span>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-500 hidden sm:block"></i>
+          <div class="flex items-center space-x-2 text-white">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Supabase DB & Object Storage</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE 7: COMPETITIVE ADVANTAGES -->
+    <!-- ========================================== -->
+    <section class="slide flex flex-col justify-center px-4" data-index="7" data-title="Competitive Edge & Differentiation">
+      <div class="max-w-5xl mx-auto w-full">
+        <div class="flex items-center space-x-2 text-amber-400 text-xs font-mono uppercase tracking-wider mb-2">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <span>06 / STRATEGIC ADVANTAGES</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">Tại Sao FORMA Tạo Nên Sự Khác Biệt?</h2>
+        <p class="text-gray-400 text-sm mt-1 max-w-3xl">Giải quyết triệt để lý do 80% người dùng bỏ cuộc sau 2 tuần sử dụng các app fitness truyền thống.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          
+          <div class="glass-card p-6 rounded-2xl relative">
+            <div class="text-red-400 text-xs font-mono font-bold mb-2">❌ VẤN ĐỀ TRUYỀN THỐNG</div>
+            <h4 class="text-base font-bold text-white mb-2">Ghi chép thức ăn tốn thời gian</h4>
+            <p class="text-xs text-gray-400 leading-relaxed">
+              Phải tìm kiếm tên món ăn trong cơ sở dữ liệu hàng nghìn món, cân đo từng gram khiến người dùng nhanh chóng nản lòng.
+            </p>
+            <div class="mt-4 pt-4 border-t border-white/5">
+              <div class="text-emerald-400 text-xs font-mono font-bold mb-1">✅ GIẢI PHÁP FORMA</div>
+              <p class="text-xs text-gray-300 font-medium">Chỉ cần 1 bức ảnh chụp món ăn, AI Vision tự động tính calo và bóc tách macro trong tích tắc.</p>
+            </div>
+          </div>
+
+          <div class="glass-card p-6 rounded-2xl relative">
+            <div class="text-red-400 text-xs font-mono font-bold mb-2">❌ VẤN ĐỀ TRUYỀN THỐNG</div>
+            <h4 class="text-base font-bold text-white mb-2">Lịch tập cứng nhắc, không thích ứng</h4>
+            <p class="text-xs text-gray-400 leading-relaxed">
+              Khi gặp máy tập bận hoặc người dùng bị đau khớp, app thông thường không thể đề xuất phương án thay thế ngay lập tức.
+            </p>
+            <div class="mt-4 pt-4 border-t border-white/5">
+              <div class="text-emerald-400 text-xs font-mono font-bold mb-1">✅ GIẢI PHÁP FORMA</div>
+              <p class="text-xs text-gray-300 font-medium">AI Feedback Loop tức thì tại phòng tập, linh hoạt hoán đổi bài tập an toàn theo thiết bị có sẵn.</p>
+            </div>
+          </div>
+
+          <div class="glass-card p-6 rounded-2xl relative">
+            <div class="text-red-400 text-xs font-mono font-bold mb-2">❌ VẤN ĐỀ TRUYỀN THỐNG</div>
+            <h4 class="text-base font-bold text-white mb-2">Thiếu cảm giác thành tựu (Dopamine)</h4>
+            <p class="text-xs text-gray-400 leading-relaxed">
+              Các con số khô khan trên biểu đồ không đủ kích thích tinh thần duy trì thói quen tập luyện và ăn uống lành mạnh.
+            </p>
+            <div class="mt-4 pt-4 border-t border-white/5">
+              <div class="text-emerald-400 text-xs font-mono font-bold mb-1">✅ GIẢI PHÁP FORMA</div>
+              <p class="text-xs text-gray-300 font-medium">Gamification, Haptic vibration, so sánh thị giác cơ thể trực quan tạo dopamine chinh phục liên tục.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SLIDE 8: SUMMARY & NEXT STEPS -->
+    <!-- ========================================== -->
+    <section class="slide flex flex-col justify-center px-4" data-index="8" data-title="Summary & Next Steps">
+      <div class="max-w-4xl mx-auto w-full text-center">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-400 mx-auto flex items-center justify-center text-black mb-6 shadow-glow-lime">
+          <i data-lucide="rocket" class="w-8 h-8 fill-black"></i>
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-extrabold text-white">FORMA</h2>
+        <p class="text-lg text-emerald-400 font-mono mt-1">Intelligence Behind Your Transformation</p>
+
+        <p class="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mt-4 leading-relaxed">
+          Sẵn sàng hiện thực hóa trải nghiệm rèn luyện thể chất & dinh dưỡng đỉnh cao. Tích hợp AI thông minh vào từng nhịp sống hàng ngày của người dùng.
+        </p>
+
+        <!-- Next Milestones Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 text-left">
+          <div class="glass-card p-4 rounded-xl border border-white/10">
+            <div class="text-xs font-mono text-emerald-400 font-bold mb-1">BƯỚC 1</div>
+            <div class="text-sm font-bold text-white">Setup Backend FastAPI</div>
+            <div class="text-xs text-gray-400 mt-1">Tích hợp OpenAI / Claude API & schemas JSON cho Onboarding + Workout plan.</div>
+          </div>
+          <div class="glass-card p-4 rounded-xl border border-white/10">
+            <div class="text-xs font-mono text-cyan-400 font-bold mb-1">BƯỚC 2</div>
+            <div class="text-sm font-bold text-white">Next.js Mobile-First UI</div>
+            <div class="text-xs text-gray-400 mt-1">Xây dựng Visual Exercise Cards, Progress Rings & test camera upload qua Ngrok.</div>
+          </div>
+          <div class="glass-card p-4 rounded-xl border border-white/10">
+            <div class="text-xs font-mono text-amber-400 font-bold mb-1">BƯỚC 3</div>
+            <div class="text-sm font-bold text-white">Capacitor Native Packaging</div>
+            <div class="text-xs text-gray-400 mt-1">Đóng gói file ipa/apk và tinh chỉnh Native Haptic Feedback trên iPhone thật.</div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-center space-x-4">
+          <button onclick="goToSlide(1)" class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-bold text-sm shadow-glow-lime hover:opacity-90 transition flex items-center space-x-2">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            <span>Xem Lại Từ Đầu</span>
+          </button>
+          <button onclick="toggleGridOverview()" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/10 transition flex items-center space-x-2">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            <span>Tất Cả Slide</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ========================================== -->
+  <!-- BOTTOM CONTROLS & NAVIGATION -->
+  <!-- ========================================== -->
+  <footer class="w-full z-40 px-8 py-4 flex items-center justify-between border-t border-white/5 bg-brand-dark/40 backdrop-blur-md">
+    
+    <!-- Previous Button -->
+    <button id="prev-btn" onclick="prevSlide()" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition disabled:opacity-30 disabled:pointer-events-none">
+      <i data-lucide="chevron-left" class="w-4 h-4"></i>
+      <span class="hidden sm:inline">Trang trước</span>
+    </button>
+
+    <!-- Slide Indicators / Dots -->
+    <div id="slide-indicators" class="flex items-center space-x-2">
+      <!-- Generated via JS -->
+    </div>
+
+    <!-- Next Button -->
+    <button id="next-btn" onclick="nextSlide()" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition disabled:opacity-30 disabled:pointer-events-none">
+      <span class="hidden sm:inline">Trang tiếp</span>
+      <i data-lucide="chevron-right" class="w-4 h-4"></i>
+    </button>
+  </footer>
+
+
+  <!-- ========================================== -->
+  <!-- GRID OVERVIEW MODAL -->
+  <!-- ========================================== -->
+  <div id="grid-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex flex-col justify-center items-center p-6 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="w-full max-w-5xl flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-3">
+        <i data-lucide="layout-grid" class="w-6 h-6 text-emerald-400"></i>
+        <h3 class="text-xl font-bold text-white">Tổng Quan Các Slide</h3>
+      </div>
+      <button onclick="toggleGridOverview()" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div id="grid-thumbnails" class="w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-4 overflow-y-auto max-h-[75vh] p-2">
+      <!-- Generated dynamically in JS -->
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT CONTROLLER -->
+  <!-- ========================================== -->
+  <script>
+    let currentSlide = 1;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // DOM Elements
+    const currentNumEl = document.getElementById('current-slide-num');
+    const totalNumEl = document.getElementById('total-slide-num');
+    const indicatorsContainer = document.getElementById('slide-indicators');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const gridModal = document.getElementById('grid-modal');
+    const gridThumbnails = document.getElementById('grid-thumbnails');
+
+    totalNumEl.textContent = totalSlides < 10 ? `0${totalSlides}` : totalSlides;
+
+    // Render Indicator Dots
+    function renderIndicators() {
+      indicatorsContainer.innerHTML = '';
+      slides.forEach((slide, idx) => {
+        const slideIndex = idx + 1;
+        const dot = document.createElement('button');
+        dot.title = slide.getAttribute('data-title') || `Slide ${slideIndex}`;
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${slideIndex === currentSlide ? 'w-8 bg-emerald-400' : 'bg-white/20 hover:bg-white/40'}`;
+        dot.onclick = () => goToSlide(slideIndex);
+        indicatorsContainer.appendChild(dot);
+      });
+    }
+
+    // Render Thumbnails in Grid Overview
+    function renderGridThumbnails() {
+      gridThumbnails.innerHTML = '';
+      slides.forEach((slide, idx) => {
+        const slideIndex = idx + 1;
+        const title = slide.getAttribute('data-title') || `Slide ${slideIndex}`;
+        const item = document.createElement('div');
+        item.className = `p-4 rounded-xl border cursor-pointer transition flex flex-col justify-between h-32 ${slideIndex === currentSlide ? 'border-emerald-500 bg-emerald-500/10' : 'border-white/10 bg-slate-900/60 hover:border-white/30'}`;
+        item.onclick = () => {
+          goToSlide(slideIndex);
+          toggleGridOverview();
+        };
+        item.innerHTML = `
+          <div class="text-xs font-mono font-bold ${slideIndex === currentSlide ? 'text-emerald-400' : 'text-gray-400'}">0${slideIndex}</div>
+          <div class="text-sm font-semibold text-white line-clamp-2">${title}</div>
+          <div class="text-[10px] text-gray-500">Bấm để chuyển slide</div>
+        `;
+        gridThumbnails.appendChild(item);
+      });
+    }
+
+    // Update Slide Display
+    function updateSlide() {
+      slides.forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      currentNumEl.textContent = currentSlide < 10 ? `0${currentSlide}` : currentSlide;
+      
+      prevBtn.disabled = currentSlide === 1;
+      nextBtn.disabled = currentSlide === totalSlides;
+
+      renderIndicators();
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(num) {
+      if (num >= 1 && num <= totalSlides) {
+        currentSlide = num;
+        updateSlide();
+      }
+    }
+
+    // Grid modal toggle
+    function toggleGridOverview() {
+      const isOpen = gridModal.classList.contains('pointer-events-auto');
+      if (isOpen) {
+        gridModal.classList.remove('opacity-100', 'pointer-events-auto');
+        gridModal.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        renderGridThumbnails();
+        gridModal.classList.remove('opacity-0', 'pointer-events-none');
+        gridModal.classList.add('opacity-100', 'pointer-events-auto');
+      }
+    }
+
+    // Fullscreen toggle
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      // If modal is open, Escape closes it
+      if (gridModal.classList.contains('pointer-events-auto')) {
+        if (e.key === 'Escape' || e.key === 'g' || e.key === 'G') {
+          toggleGridOverview();
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'Home') {
+        goToSlide(1);
+      } else if (e.key === 'End') {
+        goToSlide(totalSlides);
+      } else if (e.key === 'g' || e.key === 'G') {
+        toggleGridOverview();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'p' || e.key === 'P') {
+        window.print();
+      } else if (e.key >= '1' && e.key <= '8') {
+        goToSlide(parseInt(e.key));
+      }
+    });
+
+    // Interactive Demo Functions
+    function triggerConfettiDemo() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 60,
+          origin: { y: 0.75 },
+          colors: ['#10B981', '#06B6D4', '#F59E0B', '#EC4899']
+        });
+      }
+    }
+
+    function triggerWorkoutDemo() {
+      triggerConfettiDemo();
+      const progressText = document.getElementById('mock-progress-text');
+      if (progressText) {
+        progressText.innerHTML = '4 / 5 Bài Tập (80%)';
+        progressText.classList.add('text-emerald-300');
+      }
+    }
+
+    // Touch swipe navigation for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    window.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleGesture();
+    }, false);
+
+    function handleGesture() {
+      const threshold = 40;
+      if (touchEndX < touchStartX - threshold) {
+        nextSlide();
+      }
+      if (touchEndX > touchStartX + threshold) {
+        prevSlide();
+      }
+    }
+
+    // Initial render
+    renderIndicators();
+  </script>
+</body>
+</html>
+
