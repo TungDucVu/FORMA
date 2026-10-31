@@ -46,11 +46,39 @@ Nhằm tối ưu sự tập trung của người dùng và tạo phong cách cô
   - Triển khai toàn diện 4 Tabs với bảng màu Xanh lá cây tối giản.
   - Xây dựng đầy đủ trạng thái dữ liệu mẫu sống động (Realistic Client Mock State), tương tác Set completion, Macro accumulation, Camera upload placeholder.
   - Tối ưu cảm ứng Safari iPhone (Dynamic viewport, safe-area-insets, không mở bàn phím ảo).
-- **Pha 2: Server & Backend API Integration (Sau khi chốt UI/UX):**
+- **Pha 2: Gamification Tamagotchi Avatar Engine (Frontend Prototype):**
+  - Tích hợp linh vật thể lực (FORMA Avatar): Hệ thống Level, XP, Năng lượng, Trạng thái cảm xúc (Sung sức, Mệt mỏi, Tăng cấp).
+- **Pha 3: Server & Backend API Integration (Sau khi chốt UI/UX):**
   - Kết nối Supabase Auth, PostgreSQL Database, Storage Bucket.
   - Tích hợp FastAPI + Google Gemini Flash API cho bóc tách ảnh thức ăn thực tế và đổi bài tập tự động.
-- **Pha 3: Đóng gói Native App (Capacitor by Ionic):**
+- **Pha 4: Đóng gói Native App (Capacitor by Ionic):**
   - Chuyển giao lên App Store & Google Play.
+
+---
+
+## 4. BỘ NÃO GAMIFICATION: "TAMAGOTCHI VIRTUAL FITNESS AVATAR"
+
+Một bước chuyển mình đột phá biến quá trình tập luyện và dinh dưỡng khô khan thành một trò chơi nuôi thú ảo / phát triển nhân vật (Virtual Avatar Companion).
+
+### 4.1. Cơ Chế Vòng Lặp Tâm Lý (Psychological Tamagotchi Loop)
+Người dùng không chỉ tập cho bản thân mà còn chịu trách nhiệm nuôi nấng và tiến hóa **Nhân vật ảo (FORMA Beast / Cyber Avatar)**:
+- **Tập luyện mỗi Set / Bài tập:** Cung cấp **XP (Kinh nghiệm)** và **STR (Sức mạnh)** ➔ Nhân vật vạm vỡ hơn, lên cấp (Level Up) và mở khóa trang bị thể thao (Găng tay, Đai lưng, Áo đấu).
+- **Ăn uống & Nạp Macro chuẩn:** Tương đương việc "Cho nhân vật ăn" ➔ Hồi phục **Stamina (Thể lực)** và **HP**. Đạt chỉ tiêu Protein kích hoạt trạng thái *"Hồi phục siêu tốc (Hyper Recovery)"*.
+- **Giữ Streak liên tục:** Nhân vật tiến hóa qua các hình thái (Evolution Stages).
+- **Khi lười tập / Bỏ bữa:** Nhân vật không chết (tránh gây ức chế bỏ app), mà chuyển sang trạng thái ngái ngủ, uể oải ➔ Tạo sự thôi thúc tình cảm (Emotional Attachment) khiến người dùng xỏ giày đi tập để "đánh thức" nhân vật.
+
+### 4.2. Hệ Thống Chỉ Số & Cấp Độ (Avatar Stat System)
+
+| Chỉ số nhân vật | Hành động thực tế của User | Tác động trong App |
+| :--- | :--- | :--- |
+| **Level & XP** | Hoàn thành Set tập, hoàn thành buổi tập | Tăng cấp độ (Lv.1 ➔ Lv.50), mở khóa huy hiệu, danh hiệu và phụ kiện độc quyền. |
+| **Thể lực (Energy/STA)** | Ăn đúng calo mục tiêu | Giữ nhân vật luôn trong trạng thái tràn đầy sinh lực (100% Energetic). |
+| **Cơ bắp (Muscle Tone)** | Đạt đủ chỉ tiêu Protein | Ngoại hình nhân vật sắc nét hơn, phát sáng hào quang xanh lá (Emerald Glow). |
+| **Chuỗi Tiến Hóa (Evolution)** | Duy trì Streak 7 - 30 - 90 ngày | Tiến hóa hình thái: Mầm Non (Novice) ➔ Chiến Binh Sắt (Iron Warrior) ➔ Thần Thể Titan (Cyber Titan). |
+
+### 4.3. Đề Xuất Giải Pháp Kỹ Thuật (Tech Strategy cho Avatar)
+- **Giai đoạn 1 (Nhẹ & Mượt mà):** Sử dụng **SVG động / Lottie Animations / Rive** để render nhân vật 2D chất lượng cao, phản ứng tức thì theo từng nút bấm mà không tốn dung lượng hay gây hao pin iPhone.
+- **Giai đoạn 2 (3D Tương Tác):** Nâng cấp lên WebGL / Three.js / Spline 3D khi chuyển sang Native App bằng Capacitor.
 
 ```mermaid
 flowchart TD
