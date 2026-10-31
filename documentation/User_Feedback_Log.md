@@ -48,3 +48,22 @@ $$\text{HP\%} = 100 \times \left(0.25 \times \frac{\text{kcal}}{\text{target\_kc
    - Thay vì nằm 2 bên hông Pet, chuyển 2 Wheel (HP/Macro và EXP/Workout) xuống ngay bên dưới Pet Avatar.
    - Cân đối tỷ lệ đồ họa để Tab Hôm nay tràn trọn vẹn 1 trang màn hình app, chuẩn hóa trải nghiệm mobile-first không bị cụt hay trống trải.
 
+---
+
+## 4. FEEDBACK FB-20261031-07 (TINH GỌN CARD STREAK: CHẤM TRÒN & CHIỀU DÀI BẰNG 1/4 CARD PET)
+
+**Mã phiên ghi nhận:** FB-20261031-07  
+**Chủ đề:** Thu nhỏ kích thước Card Streak, chuyển 30 ngày thành hệ thống chấm tròn (Dot Matrix), chiều dài (chiều cao) card streak = 1/4 card Pet.
+
+### Yêu cầu chi tiết:
+1. **Thu nhỏ Card Streak (Tỷ lệ 1/4 Card Pet):**
+   - Giảm độ cao card streak về mức ~75-80px (tương đương 1/4 chiều cao khối Hero Card Pet ~340-400px), nhường không gian tối đa cho Pet và 2 Wheel.
+2. **Biểu diễn ngày bằng Chấm Tròn (Dot Matrix):**
+   - Mỗi ngày trong tháng là 1 chấm tròn (`rounded-full`):
+     - Ngày đã hoàn thành: Chấm xanh lá `bg-emerald-500` kèm ánh sáng glow.
+     - Ngày hôm nay: Chấm nổi bật có viền ring hoặc hiệu ứng nhấp nháy `animate-pulse`.
+     - Ngày nghỉ / chưa tập: Chấm xám mờ tinh tế.
+3. **Giữ nguyên tính năng phóng to:**
+   - Chạm vào card streak thu nhỏ vẫn mở bung Modal Lịch 30 ngày chi tiết kèm điều hướng các tháng trước.
+
+

@@ -122,83 +122,67 @@ export const TodayProgressDashboard: React.FC<TodayProgressProps> = ({
   return (
     <div className="flex flex-col space-y-3.5 pb-2 min-h-full">
       {/* ============================================================ */}
-      {/* CARD 1: CARD STREAK LỊCH 30 NGÀY (CLICK PHÓNG TO XEM CÁC THÁNG) */}
+      {/* CARD 1: CARD STREAK THU NHỎ (CAO = 1/4 CARD PET - CHẤM TRÒN) */}
       {/* ============================================================ */}
       <div
         onClick={() => setIsZoomed(true)}
-        className="forma-card rounded-2xl p-3.5 space-y-2.5 border-emerald-500/25 cursor-pointer hover:border-emerald-500/40 transition group relative overflow-hidden active:scale-[0.99]"
+        className="forma-card rounded-2xl py-2 px-3.5 space-y-2 border-emerald-500/25 cursor-pointer hover:border-emerald-500/40 transition group relative overflow-hidden active:scale-[0.99]"
         title="Chạm để phóng to lịch & xem các tháng trước"
       >
         {/* Glow corner hint */}
-        <div className="absolute -top-10 -right-10 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -top-8 -right-8 w-20 h-20 bg-emerald-500/10 rounded-full blur-xl pointer-events-none" />
 
-        {/* Card Header */}
+        {/* Card Header (Slim, Compact) */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-              <Flame className="w-3.5 h-3.5 fill-emerald-400" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-1.5">
-                <span className="text-xs font-bold text-white uppercase tracking-wide">
-                  Chuỗi Kỷ Luật • {currentMonthData.name}
-                </span>
-                <span className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20">
-                  🔥 5 NGÀY
-                </span>
-              </div>
-              <p className="text-[10px] text-gray-400 font-mono">
-                {currentMonthData.completedCount}/{currentMonthData.totalDays} ngày kỷ luật • Chạm để phóng to
-              </p>
+            <Flame className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400 shrink-0" />
+            <div className="flex items-center space-x-1.5">
+              <span className="text-[11px] font-bold text-white uppercase tracking-wider">
+                Streak • {currentMonthData.name}
+              </span>
+              <span className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-500/15 px-1.5 py-0.2 rounded border border-emerald-500/30">
+                🔥 5 NGÀY
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center space-x-1 text-gray-400 group-hover:text-emerald-400 transition bg-black/40 border border-white/10 px-2 py-1 rounded-lg text-[10px] font-mono">
-            <Maximize2 className="w-3 h-3" />
-            <span>Phóng to</span>
+          <div className="flex items-center space-x-1.5 text-gray-400 font-mono text-[10px]">
+            <span className="text-emerald-400 font-semibold">{currentMonthData.completedCount}/{currentMonthData.totalDays} ngày</span>
+            <Maximize2 className="w-3 h-3 group-hover:text-emerald-400 transition" />
           </div>
         </div>
 
-        {/* Mini 30-Day Calendar Grid */}
-        <div className="pt-0.5">
-          {/* Day of Week Headers */}
-          <div className="grid grid-cols-7 gap-1 text-center mb-1">
-            {dayHeaders.map((dh, idx) => (
-              <span key={idx} className="text-[9px] font-mono font-semibold text-gray-500">
-                {dh}
-              </span>
-            ))}
-          </div>
-
-          {/* 30/31 Days Cells */}
-          <div className="grid grid-cols-7 gap-1">
-            {/* Empty slots before month start */}
-            {Array.from({ length: currentMonthData.startDayOfWeek }).map((_, idx) => (
-              <div key={`empty-${idx}`} className="h-5" />
-            ))}
-
-            {/* Month Days */}
-            {currentMonthData.days.map((d) => (
+        {/* 30-Day Dot Matrix (Mỗi ngày tập là 1 chấm tròn) */}
+        <div
+          className="pt-0.5"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(16, minmax(0, 1fr))',
+            gap: '6px',
+            alignItems: 'center',
+          }}
+        >
+          {currentMonthData.days.map((d) => (
+            <div
+              key={d.dayNumber}
+              title={`Ngày ${d.dayNumber}: ${d.completed ? 'Đã tập' : d.isRestDay ? 'Nghỉ ngơi' : 'Chưa tập'}`}
+              className="flex justify-center items-center py-0.5"
+            >
               <div
-                key={d.dayNumber}
-                className={`h-5 rounded-md flex items-center justify-center text-[10px] font-mono font-medium transition ${
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                   d.isToday
-                    ? 'bg-emerald-500 text-black font-extrabold shadow-glow-green ring-1 ring-emerald-300'
+                    ? 'bg-emerald-400 ring-2 ring-emerald-300 ring-offset-1 ring-offset-black scale-125'
                     : d.completed
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                    ? 'bg-emerald-500 shadow-glow-green'
                     : d.dayNumber > 30
-                    ? 'bg-black/20 text-gray-600'
-                    : 'bg-black/40 text-gray-500'
+                    ? 'bg-white/5'
+                    : d.isRestDay
+                    ? 'bg-white/10'
+                    : 'bg-white/10'
                 }`}
-              >
-                {d.completed ? (
-                  <Check className="w-2.5 h-2.5 stroke-[3] text-emerald-400" />
-                ) : (
-                  <span>{d.dayNumber}</span>
-                )}
-              </div>
-            ))}
-          </div>
+              />
+            </div>
+          ))}
         </div>
       </div>
 

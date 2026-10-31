@@ -80,9 +80,12 @@ Một bước chuyển mình đột phá: **Nhân vật ảo (Avatar/Pet) chính
      - Nhân vật chuyển sang trạng thái ì ạch, thở dốc nếu user bỏ tập quá 3 ngày liên tiếp.
 
 #### B. Thiết Kế Tab Hôm Nay Tinh Giản (2 Card Duy Nhất - Pet Làm Trung Tâm):
-- **Card 1: Card Streak Lịch 30 Ngày (Nằm ở trên cùng):**
-  - Hiển thị dạng lưới lịch mini 30 ngày (đánh dấu ngày hoàn thành, hôm nay, chuỗi streak).
-  - Khi click vào card: Tự động mở Modal Phóng to (Zoom-in) cho phép điều hướng xem toàn bộ lịch sử các tháng trước (`< Tháng 9`, `Tháng 10 >`), tỷ lệ hoàn thành tháng và kỷ lục streak.
+- **Card 1: Card Streak Thu Nhỏ (Chiều cao = 1/4 Card Pet, Hệ Thống Chấm Tròn Dot Matrix):**
+  - Kích thước siêu gọn (chiều cao ~1/4 so với Hero Pet Card), mỗi ngày tập là 1 chấm tròn (`rounded-full`):
+    - Chấm xanh lá có glow biểu thị ngày hoàn thành kỷ luật.
+    - Chấm ring sáng nổi bật biểu thị ngày hôm nay.
+    - Chấm xám mờ biểu thị ngày nghỉ ngơi hoặc ngày sắp tới.
+  - Khi click vào card: Tự động mở Modal Phóng to (Zoom-in) xem lịch 30 ngày đầy đủ và chuyển đổi xem lịch sử các tháng trước (`< Tháng 9`, `Tháng 10 >`).
 - **Card 2: Hero Pet Card (Borderless & Tràn trang):**
   - Pet Avatar trung tâm lớn, tương tác chạm gồng cơ & phát thoại động viên.
   - **2 Vòng Tròn (Wheels) được bố trí ngay bên dưới Pet Avatar:**
