@@ -47,3 +47,9 @@ desktop.ini
 *.swp
 *.swo
 
+# Datasets & Exercise DBs
+free-exercise-db-main/
+*.zip
+*.tar.gz
+
+
