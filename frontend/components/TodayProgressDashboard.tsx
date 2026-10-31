@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { Dumbbell, Utensils, ChevronRight, Flame, Calendar as CalendarIcon, Check } from 'lucide-react';
+import { PetCompanionCard, PetState } from './PetCompanionCard';
 
 interface TodayProgressProps {
+  pet: PetState;
   workout: {
     currentDay?: number;
     totalDays?: number;
@@ -24,6 +26,7 @@ interface TodayProgressProps {
 }
 
 export const TodayProgressDashboard: React.FC<TodayProgressProps> = ({
+  pet,
   workout,
   macro,
   onGoToWorkout,
@@ -68,6 +71,9 @@ export const TodayProgressDashboard: React.FC<TodayProgressProps> = ({
 
   return (
     <div className="space-y-4">
+      {/* 0. HERO TAMAGOTCHI PET COMPANION */}
+      <PetCompanionCard pet={pet} onGoToWorkout={onGoToWorkout} />
+
       {/* 1. CARD LỊCH GHI STREAK CỦA USER */}
       <div className="forma-card rounded-3xl p-4 space-y-3 border-emerald-500/25">
         <div className="flex items-center justify-between">

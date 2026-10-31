@@ -7,6 +7,7 @@ import { MacroTab } from '@/components/MacroTab';
 import { ProfileTab } from '@/components/ProfileTab';
 import { CameraUploadModal } from '@/components/CameraUploadModal';
 import { OnboardingModal } from '@/components/OnboardingModal';
+import { PetState } from '@/components/PetCompanionCard';
 import {
   Calendar,
   Dumbbell,
@@ -25,6 +26,20 @@ export default function Home() {
   const [showCameraModal, setShowCameraModal] = useState<boolean>(false);
   const [showOnboarding, setShowOnboarding] = useState<boolean>(false);
 
+  // Global Tamagotchi Pet State
+  const [petState, setPetState] = useState<PetState>({
+    name: 'DRAGO',
+    species: 'Cyber Dragon',
+    level: 4,
+    currentXp: 650,
+    nextLevelXp: 1000,
+    hp: 85,
+    maxHp: 100,
+    str: 145,
+    evolutionStage: 'Giai Đoạn 1: Novice',
+    mood: 'energetic',
+  });
+
   // Global Mock Workout State
   const [completedSetsMap, setCompletedSetsMap] = useState<{ [id: string]: number }>({
     'ex-1': 4, // 4/4 sets done
@@ -41,23 +56,54 @@ export default function Home() {
     fat: { current: 51, total: 65 },
   });
 
-  // Toggle/increment set for an exercise
+  // Toggle/increment set for an exercise + Give XP & STR to Pet!
   const handleToggleSet = (exerciseId: string, setIndex: number) => {
     setCompletedSetsMap((prev) => {
       const current = prev[exerciseId] || 0;
-      // If clicking current or next set, increment or toggle
+      const isCompleting = setIndex > current;
       const nextCount = setIndex === current ? Math.max(0, current - 1) : setIndex;
+
+      // If user completes a set, feed XP and STR to the pet!
+      if (isCompleting) {
+        setPetState((p) => {
+          const gainedXp = p.currentXp + 35;
+          if (gainedXp >= p.nextLevelXp) {
+            // Level up!
+            return {
+              ...p,
+              level: p.level + 1,
+              currentXp: gainedXp - p.nextLevelXp,
+              nextLevelXp: Math.round(p.nextLevelXp * 1.3),
+              str: p.str + 8,
+              evolutionStage: p.level + 1 >= 5 ? 'Giai Đoạn 2: Iron Warrior' : p.evolutionStage,
+            };
+          }
+          return {
+            ...p,
+            currentXp: gainedXp,
+            str: p.str + 2,
+          };
+        });
+      }
+
       return { ...prev, [exerciseId]: nextCount };
     });
   };
 
-  // Handle new meal logged from camera
+  // Handle new meal logged from camera or recipe + Restore Pet Energy!
   const handleConfirmMealFromCamera = (meal: any) => {
     setMacroState((prev) => ({
       calories: { ...prev.calories, current: prev.calories.current + meal.calories },
       protein: { ...prev.protein, current: prev.protein.current + meal.protein },
       carb: { ...prev.carb, current: prev.carb.current + meal.carb },
       fat: { ...prev.fat, current: prev.fat.current + meal.fat },
+    }));
+
+    // Feed Pet: Restore HP and add XP
+    setPetState((p) => ({
+      ...p,
+      hp: Math.min(p.maxHp, p.hp + 15),
+      currentXp: Math.min(p.nextLevelXp, p.currentXp + 40),
     }));
   };
 
@@ -80,7 +126,7 @@ export default function Home() {
             <div className="flex items-center space-x-1.5">
               <span className="text-base font-extrabold tracking-wide text-white">FORMA</span>
               <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.2 rounded font-bold">
-                FITNESS
+                PET EDITION
               </span>
             </div>
             <p className="text-[10px] text-gray-400">Intelligence Behind You</p>
@@ -108,6 +154,7 @@ export default function Home() {
       <main className="flex-1 overflow-y-auto pb-4">
         {activeTab === 'today' && (
           <TodayProgressDashboard
+            pet={petState}
             workout={{
               currentDay: 3,
               totalDays: 4,
