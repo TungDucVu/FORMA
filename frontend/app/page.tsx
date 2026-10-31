@@ -131,7 +131,10 @@ export default function Home() {
         )}
 
         {activeTab === 'macro' && (
-          <MacroTab onOpenAddModal={() => setShowCameraModal(true)} />
+          <MacroTab
+            onOpenAddModal={() => setShowCameraModal(true)}
+            onLogSuggestedMeal={handleConfirmMealFromCamera}
+          />
         )}
 
         {activeTab === 'profile' && (
