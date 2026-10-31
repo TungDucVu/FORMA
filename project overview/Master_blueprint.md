@@ -1,8 +1,8 @@
 # 📱 MASTER BLUEPRINT: AI FITNESS & NUTRITION APP
 
 ## 1. PRODUCT OVERVIEW & CORE LOOP
-- Ứng dụng fitness cá nhân hóa tích hợp AI đa tính năng, hướng tới trải nghiệm mượt mà, trực quan, thúc đẩy người dùng hành động (Action-driven) và tạo cảm giác chinh phục (Feeling of accomplishment).
-- **Core Loop:** Onboarding ➔ AI Generation (Workout + Macro) ➔ Daily Execution (Interactive Workout + AI Food Tracking + Progress Tracking).
+- Ứng dụng fitness cá nhân hóa tích hợp AI đa tính năng kết hợp **Tamagotchi Gamification Engine** (Nhân vật ảo đồng hành phản chiếu lối sống thực tế của người dùng). Hướng tới trải nghiệm mượt mà, trực quan, thúc đẩy hành động (Action-driven) và cảm giác chinh phục (Feeling of accomplishment).
+- **Core Loop:** Onboarding (Sinh Avatar & Lộ trình) ➔ Daily Execution (Interactive Workout cày XP + AI Food Tracking nạp Fuel cho Pet) ➔ Level Up & Tiến hóa hình thái (Evolution).
 
 ## 2. TECH STACK ARCHITECTURE
 - **Phase 1 (Dev & Test - $0 Free Tier Optimized):**
@@ -15,21 +15,20 @@
 - **Phase 2 (Production Mobile App):**
   - Đóng gói codebase Next.js sang Native App bằng **Capacitor (by Ionic)** để phát hành lên App Store / Google Play.
 
-## 3. CORE FEATURES & UX DESIGN LANGUAGE
-- **Feature 1: Onboarding & Assessment (Low-friction, Gamified & Step-by-step)**
-  - **Zero-Keyboard Design:** Tối ưu hóa ngón tay cái, dùng Wheel Picker / Chip / Card thay vì gõ số.
-  - **Phân định rõ 2 nhóm thông tin:**
-    - *Nhóm bắt buộc (Tối thiểu 2 trang, max 5 ô/trang):* Giới tính, Tuổi, Chiều cao & Cân nặng (Trang 1: Vóc dáng); Mục tiêu & Số buổi tập/tuần (Trang 2: Mục tiêu & Lịch tập). Đủ tính BMR, TDEE, Macro và sinh lịch tập tức thì.
-    - *Nhóm nâng cao (Điền sau qua Profile Nudge):* Body Fat %, mức vận động chi tiết, địa điểm tập (gym/home), chấn thương, chế độ ăn kiêng.
-  - **Dashboard Nudge & Checklist:** Thanh Onboarding Progress Tracker (VD: *60% hoàn thành*) + Checklist thưởng huy hiệu, nhắc nhở nhẹ nhàng, tuyệt đối không hỏi lại thông tin cũ.
-- **Feature 2: AI Workout Plan & Interactive Session (Gym Workout focus - có thể mở rộng)**
-  - **Visual Exercise Cards:** Tên bài tập, GIF minh họa kỹ thuật, số Sets/Reps, Target muscles, Approx Calories.
-  - **Interactive Execution:** Check/Swipe to Done từng bài tập, thanh tiến độ buổi tập (Workout Progress Bar).
-  - **AI Feedback Loop:** Cho phép user phản hồi trực tiếp (đau khớp, tạ nhẹ/nặng, thiết bị bận) để AI tinh chỉnh bài tập thay thế ngay lập tức.
-- **Feature 3: AI Macro Planner & Food Tracker**
-  - **Visual Progress Rings & Bars:** Theo dõi trực quan Calories, Protein, Carbs, Fat theo thời gian thực.
-  - **Smart Vision Logging:** Chụp ảnh món ăn bằng camera iPhone ➔ AI Vision phân tích thành phần, bóc tách macro ➔ Quẹt phải (Swipe) để xác nhận và trừ vào tổng ngày.
-  - **Gamification & Accomplishment:** Hiệu ứng hoàn thành mục tiêu (Confetti, Haptic feedback, thông báo cổ vũ) tạo động lực tiến về phía trước.
-- **Feature 4: AI Body Progress Tracker**
-  - Lưu trữ lịch sử ảnh vóc dáng theo mốc thời gian (timestamp) vào Supabase Storage.
-  - AI so sánh sự thay đổi cơ bắp/mỡ qua các mốc thời gian, kết hợp biểu đồ cân nặng để đánh giá hiệu quả lộ trình.
+## 3. CORE FEATURES & TAMAGOTCHI INTEGRATION
+- **Feature 1: Onboarding & Assessment (Sinh ra nhân vật đầu tiên)**
+  - Sau khi điền xong chỉ số tối thiểu (Tuổi, chiều cao, cân nặng, mục tiêu), hệ thống cho user chọn và đặt tên cho nhân vật khởi đầu (chú rồng con, chiến binh robot, hoặc linh vật đại diện).
+  - Nhân vật có chỉ số xuất phát (HP, STR, Physique) khớp hoàn toàn với vóc dáng hiện tại của user.
+  - Zero-Keyboard UI (Wheel Picker & Cards), phân loại Bắt buộc vs Nâng cao.
+- **Feature 2: AI Workout Plan & Interactive Session (Cày XP & Sức Mạnh cho Pet)**
+  - Giao diện thẻ bài tập Tinder/Bumble UI: Tên bài, ảnh lớn, số Reps, các ô tick Set 1-4. Bấm vào xem Tutorial & Nhóm cơ.
+  - Mỗi khi user bấm Swipe/Check to Done: Hiệu ứng Pet tung đòn đánh / hiệp tập cùng user, cộng trực tiếp EXP lên thanh Level của Pet.
+  - Hoàn thành cả buổi tập: Pet nhảy múa ăn mừng, tặng quà ảo (mở khóa skin, trang bị tập gym).
+- **Feature 3: AI Macro Planner & Food Tracker (Cho Pet "Ăn" Năng Lượng Chuẩn)**
+  - Chụp ảnh món ăn bằng camera ➔ AI Gemini Flash bóc tách Macro ➔ Quẹt phải xác nhận.
+  - Hệ thống thông báo: *"Bạn nạp 500 kcal (40g Protein). Pet đã được nạp năng lượng hoàn hảo!"*.
+  - Tăng điểm "Nutrition Fuel", Pet nhận trạng thái "Super Saiyan". Ăn chuẩn liên tục kích hoạt Tiến Hóa Hình Thái (Evolution Stage).
+  - Nếu bỏ tập hoặc ăn cheat quá đà: Pet bị "tuột mood", đói mệt, thúc đẩy tâm lý trách nhiệm của user.
+- **Feature 4: AI Body Progress Tracker & Avatar Evolution**
+  - Lưu trữ lịch sử ảnh vóc dáng và chỉ số cơ thể.
+  - Vóc dáng nhân vật thay đổi trực quan tương ứng với sự tiến bộ ngoài đời của user (săn chắc, cơ bắp hơn hoặc ì ạch khi bỏ bê).

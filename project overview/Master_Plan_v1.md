@@ -56,25 +56,69 @@ Nhằm tối ưu sự tập trung của người dùng và tạo phong cách cô
 
 ---
 
-## 4. BỘ NÃO GAMIFICATION: "TAMAGOTCHI VIRTUAL FITNESS AVATAR"
+## 4. TAMAGOTCHI FITNESS ENGINE: BỘ NÃO GAMIFICATION CỐT LÕI
 
-Một bước chuyển mình đột phá biến quá trình tập luyện và dinh dưỡng khô khan thành một trò chơi nuôi thú ảo / phát triển nhân vật (Virtual Avatar Companion).
+Một bước chuyển mình đột phá: **Nhân vật ảo (Avatar/Pet) chính là tấm gương phản chiếu chính xác lối sống và kỷ luật thực tế của người dùng**.
 
-### 4.1. Cơ Chế Vòng Lặp Tâm Lý (Psychological Tamagotchi Loop)
-Người dùng không chỉ tập cho bản thân mà còn chịu trách nhiệm nuôi nấng và tiến hóa **Nhân vật ảo (FORMA Beast / Cyber Avatar)**:
-- **Tập luyện mỗi Set / Bài tập:** Cung cấp **XP (Kinh nghiệm)** và **STR (Sức mạnh)** ➔ Nhân vật vạm vỡ hơn, lên cấp (Level Up) và mở khóa trang bị thể thao (Găng tay, Đai lưng, Áo đấu).
-- **Ăn uống & Nạp Macro chuẩn:** Tương đương việc "Cho nhân vật ăn" ➔ Hồi phục **Stamina (Thể lực)** và **HP**. Đạt chỉ tiêu Protein kích hoạt trạng thái *"Hồi phục siêu tốc (Hyper Recovery)"*.
-- **Giữ Streak liên tục:** Nhân vật tiến hóa qua các hình thái (Evolution Stages).
-- **Khi lười tập / Bỏ bữa:** Nhân vật không chết (tránh gây ức chế bỏ app), mà chuyển sang trạng thái ngái ngủ, uể oải ➔ Tạo sự thôi thúc tình cảm (Emotional Attachment) khiến người dùng xỏ giày đi tập để "đánh thức" nhân vật.
+### 4.1. Cơ Chế Cốt Lõi Của Nhân Vật (Core Mechanics)
 
-### 4.2. Hệ Thống Chỉ Số & Cấp Độ (Avatar Stat System)
+#### A. Chỉ Số Sinh Tồn & Trạng Thái (Stats & States):
+1. **HP / Energy (Năng lượng):**
+   - Phụ thuộc trực tiếp vào việc ngủ đủ giấc và ăn uống đúng Macro/Calo mục tiêu.
+   - Khi năng lượng $\ge 90\%$: Nhân vật tràn đầy sức sống, mắt sáng, sẵn sàng tập luyện.
+   - Khi thiếu hụt calo/bỏ bữa: Năng lượng sụt giảm, nhân vật trở nên uể oải.
+2. **Strength (Sức mạnh - STR):**
+   - Tăng lũy tiến mỗi khi người dùng hoàn thành các bài tập trong Feature 2 (Check/Swipe to Done).
+   - Tích lũy điểm sức mạnh để mở khóa các kỹ năng vận động (Skills) và danh hiệu lực sĩ.
+3. **Form / Physique (Vóc dáng nhân vật ảo):**
+   - Thay đổi hình ảnh trực quan dựa trên progress thực tế của user:
+     - Nhân vật săn chắc, nét cơ, lộ cơ bụng khi user giảm mỡ / tăng cơ thành công.
+     - Nhân vật chuyển sang trạng thái ì ạch, thở dốc nếu user bỏ tập quá 3 ngày liên tiếp.
 
-| Chỉ số nhân vật | Hành động thực tế của User | Tác động trong App |
-| :--- | :--- | :--- |
-| **Level & XP** | Hoàn thành Set tập, hoàn thành buổi tập | Tăng cấp độ (Lv.1 ➔ Lv.50), mở khóa huy hiệu, danh hiệu và phụ kiện độc quyền. |
-| **Thể lực (Energy/STA)** | Ăn đúng calo mục tiêu | Giữ nhân vật luôn trong trạng thái tràn đầy sinh lực (100% Energetic). |
-| **Cơ bắp (Muscle Tone)** | Đạt đủ chỉ tiêu Protein | Ngoại hình nhân vật sắc nét hơn, phát sáng hào quang xanh lá (Emerald Glow). |
-| **Chuỗi Tiến Hóa (Evolution)** | Duy trì Streak 7 - 30 - 90 ngày | Tiến hóa hình thái: Mầm Non (Novice) ➔ Chiến Binh Sắt (Iron Warrior) ➔ Thần Thể Titan (Cyber Titan). |
+#### B. Vòng Lặp Phản Hồi & Thưởng (Feedback Loop):
+- **Tập luyện (Workout Complete):** ➔ Nhận XP + Thể lực cho Pet ➔ Nhân vật lên Level / Học được Skill mới.
+- **Ăn uống chuẩn Macro (Log Food qua AI Vision):** ➔ Tăng điểm *"Nutrition Fuel"* ➔ Pet nhận vật phẩm tăng trưởng / Kích hoạt trạng thái *"Super Saiyan"*.
+- **Bỏ tập / Ăn "cheat" quá đà:** ➔ Pet bị *"tuột mood"*, đói mệt, sụt chỉ số (tạo phản xạ trách nhiệm và thôi thúc user quay lại lộ trình).
+
+---
+
+### 4.2. Tích Hợp Tamagotchi Vào 3 Feature Chính Hiện Tại
+
+```mermaid
+flowchart LR
+    subgraph F1 ["Feature 1: Onboarding"]
+        OB["Chỉ số cơ thể & Mục tiêu"] --> Birth["Sinh & Đặt tên Pet khởi đầu (Rồng con / Cyber Bot)"]
+        Birth --> Sync["Khớp chỉ số xuất phát với thể trạng User"]
+    end
+
+    subgraph F2 ["Feature 2: Workout"]
+        SetDone["Check / Swipe to Done"] --> PetAnim["Pet tung đòn / Hiệp tập cùng"]
+        PetAnim --> AddXP["+EXP trực tiếp lên Level Bar"]
+        AddXP --> Celebrate["Hoàn thành buổi tập: Nhảy múa + Mở khóa trang phục"]
+    end
+
+    subgraph F3 ["Feature 3: Food Tracking"]
+        Snap["Chụp ảnh qua Gemini Flash"] --> Fuel["Tăng Nutrition Fuel: 'Pet đã được nạp năng lượng!'"]
+        Fuel --> StreakEvolve["Ăn chuẩn chuỗi ngày: Kích hoạt Tiến Hóa (Evolution Stage)"]
+    end
+```
+
+#### 🌟 Feature 1: Onboarding (Sinh Ra Nhân Vật Đầu Tiên)
+- Sau khi điền xong các chỉ số tối thiểu (Tuổi, chiều cao, cân nặng, mục tiêu), hệ thống cho user **chọn và đặt tên cho nhân vật khởi đầu** (Ví dụ: Chú Rồng Lửa Con, Robot Cyber-Fit, hoặc Linh Vật Quái Thú).
+- Nhân vật này sẽ có chỉ số xuất phát (Body Shape, HP, STR) **khớp hoàn toàn với vóc dáng hiện tại của user**.
+
+#### 🏋️ Feature 2: Interactive Workout ➔ Cày XP Cho Pet
+- Mỗi khi user bấm **Swipe to Done** hoàn thành một bài tập trên giao diện:
+  - Màn hình xuất hiện hiệu ứng Pet tung đòn đánh / hoàn thành hiệp tập đồng hành cùng user.
+  - Cộng trực tiếp EXP (Điểm kinh nghiệm) lên thanh Level của Pet.
+- **Gamification Nudge:** Khi hoàn thành toàn bộ buổi tập, Pet sẽ nhảy múa ăn mừng rực rỡ (Confetti xanh lá), tặng quà ảo (mở khóa trang phục mới, đai lưng, găng tay tập gym cho Pet).
+
+#### 🥗 Feature 3: AI Food Tracker ➔ Cho Pet "Ăn" Năng Lượng Chuẩn
+- Khi user chụp ảnh món ăn và được AI Gemini Flash bóc tách Macro thành công:
+  - Hệ thống hiển thị thông báo đồng hành: *"Bạn nạp 500 kcal (40g Protein). Pet đã được nạp năng lượng hoàn hảo!"*.
+  - Ăn uống đúng Macro mục tiêu nhiều ngày liên tiếp ➔ Pet tiến hóa sang hình thái mới (**Evolution Stage**) – tạo cảm giác cực kỳ thỏa mãn (Dopamine hit).
+
+---
 
 ### 4.3. Đề Xuất Giải Pháp Kỹ Thuật (Tech Strategy cho Avatar)
 - **Giai đoạn 1 (Nhẹ & Mượt mà):** Sử dụng **SVG động / Lottie Animations / Rive** để render nhân vật 2D chất lượng cao, phản ứng tức thì theo từng nút bấm mà không tốn dung lượng hay gây hao pin iPhone.
