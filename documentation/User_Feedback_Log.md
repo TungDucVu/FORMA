@@ -66,4 +66,26 @@ $$\text{HP\%} = 100 \times \left(0.25 \times \frac{\text{kcal}}{\text{target\_kc
 3. **Giữ nguyên tính năng phóng to:**
    - Chạm vào card streak thu nhỏ vẫn mở bung Modal Lịch 30 ngày chi tiết kèm điều hướng các tháng trước.
 
+---
+
+## 5. FEEDBACK FB-20261031-08 (CẬP NHẬT LOGO CHÍNH THỨC, TINH CHỈNH HEADER & 5 CARD HỒ SƠ TƯƠNG TÁC)
+
+**Mã phiên ghi nhận:** FB-20261031-08  
+**Chủ đề:** Sử dụng Logo chính thức (`Gemini_Generated_Image_nnc51znnc51znnc5.png`), Tinh giản Header chỉ chứa Logo + Tên FORMA + Slogan; Tái cấu trúc Tab Hồ Sơ thành 5 Card tương tác chỉnh sửa được.
+
+### Yêu cầu chi tiết:
+1. **Logo & Header:**
+   - Đưa logo chính thức từ file ảnh vào Header.
+   - Header chỉ hiển thị: Logo + Tên "FORMA" + Slogan "Intelligence Behind Your Transformation".
+   - Loại bỏ các thành phần rườm rà (nút reset onboarding, pill streak) khỏi header để giữ nhận diện thương hiệu tập trung và đẳng cấp.
+2. **Tab Hồ Sơ (Profile) gồm 5 Card thông tin:**
+   - **Card 1: Ảnh đại diện, Tên & Mục tiêu** (Avatar, họ tên, mục tiêu tập luyện, số buổi/tuần).
+   - **Card 2: Chỉ số Body** (Chiều cao, cân nặng, Body Fat %, tính toán BMI tự động).
+   - **Card 3: Chỉ số Sức khỏe** (BMR calo nền, TDEE, Mức độ vận động PAL, Nhịp tim nghỉ).
+   - **Card 4: Chấn thương & Kiêng khem** (Tiền sử chấn thương né bài tập, Dị ứng thực phẩm / Kiêng khem AI lọc món).
+   - **Card 5: Cài đặt ứng dụng** (Đơn vị đo kg/lbs, bật tắt thông báo, ngôn ngữ, thiết lập lại Onboarding).
+3. **Cơ chế chỉnh sửa:**
+   - Tất cả các Card thông tin đều cho phép click trực tiếp để mở giao diện sửa dữ liệu, sau đó bấm **"Xác nhận"** để lưu thay đổi ngay lập tức.
+
+
 

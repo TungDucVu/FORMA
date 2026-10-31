@@ -34,9 +34,13 @@ Nhằm tối ưu sự tập trung của người dùng và tạo phong cách cô
    - Mở modal chụp ảnh món ăn hoặc check-in vóc dáng nhanh.
 4. **Tab 3: Macro (Dinh dưỡng & Bữa ăn)**
    - Danh sách thẻ các bữa đã nạp trong ngày (Bữa sáng, Trưa, Tối, Snack) kèm ảnh món ăn và thông số calo/macro.
-5. **Tab 4: Hồ sơ (Profile)**
-   - Thông tin cá nhân cơ bản (Tuổi, Chiều cao, Cân nặng, Mục tiêu).
-   - Thanh tiến độ hồ sơ thể lực (60%) kèm Checklist nhắc nhở nhẹ nhàng. Cài đặt tài khoản.
+5. **Tab 4: Hồ sơ (Profile - 5 Interactive Data Cards)**
+   - **Card 1: Ảnh đại diện, Tên & Mục tiêu:** Avatar, Họ tên, Mục tiêu chính, Tần suất tập luyện.
+   - **Card 2: Chỉ số Body:** Chiều cao (cm), Cân nặng (kg), Body Fat %, Chỉ số BMI tự động.
+   - **Card 3: Chỉ số Sức khỏe:** BMR (trao đổi chất nền), TDEE, Mức độ vận động (PAL), Nhịp tim nghỉ.
+   - **Card 4: Chấn thương & Kiêng khem:** Tiền sử chấn thương (để AI né bài tập), Dị ứng thực phẩm / Kiêng khem ăn uống.
+   - **Card 5: Cài đặt ứng dụng:** Đơn vị đo (kg/lbs), Bật/Tắt thông báo, Ngôn ngữ, Thiết lập lại Onboarding.
+   - *Tất cả các card đều có thể click để chỉnh sửa và bấm "Xác nhận" để lưu cập nhật ngay lập tức.*
 
 ---
 

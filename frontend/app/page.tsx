@@ -131,36 +131,15 @@ export default function Home() {
     <div className="w-full max-w-md mx-auto min-h-screen-ios flex flex-col justify-between pb-24 px-4 pt-3 relative bg-[#090D0B]">
       
       {/* TOP HEADER */}
-      <header className="flex items-center justify-between py-2 border-b border-white/5 mb-4">
-        <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-xl bg-emerald-500 text-black flex items-center justify-center font-black text-sm shadow-glow-green">
-            F
-          </div>
-          <div>
-            <div className="flex items-center space-x-1.5">
-              <span className="text-base font-extrabold tracking-wide text-white">FORMA</span>
-              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.2 rounded font-bold">
-                PET EDITION
-              </span>
-            </div>
-            <p className="text-[10px] text-gray-400">Intelligence Behind You</p>
-          </div>
-        </div>
-
-        {/* Streak & Reset Onboarding trigger */}
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center space-x-1 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-1 rounded-full text-xs font-mono font-bold text-emerald-400">
-            <Flame className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
-            <span>STREAK: 5 NGÀY</span>
-          </div>
-
-          <button
-            onClick={() => setShowOnboarding(true)}
-            className="p-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white"
-            title="Mở lại Onboarding"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
+      <header className="flex items-center space-x-3 py-2.5 border-b border-white/5 mb-3">
+        <img
+          src="/logo.png"
+          alt="FORMA Logo"
+          className="w-10 h-10 rounded-xl object-contain shadow-glow-green"
+        />
+        <div className="flex flex-col justify-center">
+          <span className="text-base font-black tracking-wider text-white leading-tight">FORMA</span>
+          <p className="text-[10px] font-mono text-gray-400 leading-tight">Intelligence Behind Your Transformation</p>
         </div>
       </header>
 
