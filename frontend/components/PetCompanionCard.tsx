@@ -90,19 +90,19 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
   };
 
   return (
-    <div className="relative overflow-hidden py-3 px-2 flex flex-col items-center">
+    <div className="relative overflow-hidden flex flex-col justify-between space-y-3.5 py-1">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* TOP: PET NAME & STAGE BADGE (BORDERLESS) */}
-      <div className="w-full flex items-center justify-between pb-2 relative z-10">
+      {/* 1. TOP: PET HEADER (NAME, STAGE, LEVEL) */}
+      <div className="w-full flex items-center justify-between relative z-10 px-1">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-extrabold text-xs shadow-glow-green">
             ⚡
           </div>
           <div>
             <div className="flex items-center space-x-1.5">
-              <h2 className="text-lg font-black text-white tracking-wide">{pet.name}</h2>
+              <h2 className="text-base font-black text-white tracking-wide">{pet.name}</h2>
               <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full">
                 {pet.evolutionStage}
               </span>
@@ -117,8 +117,8 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
         </div>
       </div>
 
-      {/* SPEECH BUBBLE */}
-      <div className="relative z-10 my-1 px-4 py-2 rounded-2xl bg-black/80 border border-emerald-500/30 text-xs text-gray-200 text-center max-w-xs shadow-lg animate-in fade-in duration-300">
+      {/* 2. SPEECH BUBBLE */}
+      <div className="relative z-10 mx-auto px-4 py-2 rounded-2xl bg-black/80 border border-emerald-500/30 text-xs text-gray-200 text-center max-w-sm shadow-lg animate-in fade-in duration-300">
         <p className="leading-relaxed font-medium">
           <span className="text-emerald-400 font-bold mr-1">💬</span>
           {dialogue}
@@ -126,59 +126,20 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
         <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-black/80 border-b border-r border-emerald-500/30 rotate-45" />
       </div>
 
-      {/* CENTER: BORDERLESS PET & 2 FLANKING WHEELS (HP & EXP) */}
-      <div className="w-full py-4 flex items-center justify-between relative z-10">
-        
-        {/* LEFT: HP WHEEL (NĂNG LƯỢNG SINH TỒN) - CLICK TO POPUP MACRO */}
-        <div
-          onClick={() => setShowMacroModal(true)}
-          className="flex flex-col items-center cursor-pointer group active:scale-95 transition"
-          title="Bấm để xem chi tiết Macro"
-        >
-          <div className="relative w-20 h-20 flex items-center justify-center">
-            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-              <path
-                className="text-white/10"
-                strokeWidth="3.5"
-                stroke="currentColor"
-                fill="none"
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              />
-              <path
-                className="text-yellow-400 transition-all duration-700 ease-out"
-                strokeDasharray={`${hpPercent}, 100`}
-                strokeWidth="3.5"
-                strokeLinecap="round"
-                stroke="currentColor"
-                fill="none"
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              />
-            </svg>
-            <div className="absolute flex flex-col items-center text-center">
-              <Zap className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400 mb-0.5" />
-              <span className="text-xs font-mono font-black text-white leading-none">{hpPercent}%</span>
-              <span className="text-[8px] font-mono text-gray-400 mt-0.5">HP</span>
-            </div>
-          </div>
-          <span className="text-[10px] font-mono text-emerald-400 font-bold mt-1.5 group-hover:underline flex items-center">
-            <span>Macro</span>
-            <ChevronRight className="w-3 h-3" />
-          </span>
-        </div>
-
-        {/* CENTER: INTERACTIVE PET AVATAR */}
+      {/* 3. CENTER HERO: INTERACTIVE PET AVATAR */}
+      <div className="w-full flex justify-center items-center py-2 relative z-10">
         <div
           onClick={handleTapPet}
           className={`cursor-pointer transform transition-transform duration-300 relative group shrink-0 ${
-            isFlexing ? 'scale-115 -rotate-3' : 'hover:scale-105 active:scale-95'
+            isFlexing ? 'scale-110 -rotate-2' : 'hover:scale-105 active:scale-95'
           }`}
           title="Chạm vào Pet để tương tác"
         >
           {/* Pulsing Aura */}
-          <div className="absolute inset-0 bg-emerald-500/25 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute inset-0 bg-emerald-500/25 rounded-full blur-3xl animate-pulse" />
 
-          {/* Character SVG */}
-          <svg className="w-40 h-40 relative z-10 drop-shadow-[0_12px_24px_rgba(34,197,94,0.4)]" viewBox="0 0 160 160">
+          {/* Character SVG (Larger, Hero Center) */}
+          <svg className="w-44 h-44 sm:w-48 sm:h-48 relative z-10 drop-shadow-[0_12px_28px_rgba(34,197,94,0.45)]" viewBox="0 0 160 160">
             {/* Dragon Wings */}
             <path
               d="M30 65 Q 10 40 40 30 Q 55 50 45 75 Z"
@@ -232,14 +193,58 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
             <ellipse cx="95" cy="140" rx="12" ry="6" fill="#14532D" stroke="#22C55E" strokeWidth="2" />
           </svg>
         </div>
+      </div>
 
-        {/* RIGHT: EXP WHEEL (KINH NGHIỆM TẬP LUYỆN) - CLICK TO POPUP WORKOUT */}
+      {/* 4. 2 WHEELS (HP & EXP) CHUYỂN XUỐNG DƯỚI PET (TRÀN ĐẦY MÀN HÌNH) */}
+      <div className="w-full grid grid-cols-2 gap-3 relative z-10">
+        
+        {/* LEFT: HP WHEEL (NĂNG LƯỢNG SINH TỒN) - BẤM XEM POPUP MACRO */}
+        <div
+          onClick={() => setShowMacroModal(true)}
+          className="forma-card rounded-2xl p-3 border-emerald-500/25 hover:border-yellow-400/40 cursor-pointer active:scale-95 transition flex flex-col items-center group relative overflow-hidden"
+          title="Bấm để xem chi tiết vòng tròn Macro"
+        >
+          <div className="relative w-16 h-16 sm:w-18 sm:h-18 flex items-center justify-center my-1">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+              <path
+                className="text-white/10"
+                strokeWidth="3.5"
+                stroke="currentColor"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path
+                className="text-yellow-400 transition-all duration-700 ease-out"
+                strokeDasharray={`${hpPercent}, 100`}
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+            </svg>
+            <div className="absolute flex flex-col items-center text-center">
+              <Zap className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              <span className="text-xs font-mono font-black text-white leading-none mt-0.5">{hpPercent}%</span>
+            </div>
+          </div>
+
+          <div className="text-center mt-1">
+            <div className="text-xs font-bold text-white group-hover:text-yellow-300 transition flex items-center justify-center space-x-1">
+              <span>Năng Lượng (HP)</span>
+              <ChevronRight className="w-3 h-3 text-yellow-400" />
+            </div>
+            <p className="text-[10px] text-gray-400 font-mono">Chạm xem Macro Wheel</p>
+          </div>
+        </div>
+
+        {/* RIGHT: EXP WHEEL (TIẾN ĐỘ TẬP LUYỆN) - BẤM XEM POPUP WORKOUT */}
         <div
           onClick={() => setShowWorkoutModal(true)}
-          className="flex flex-col items-center cursor-pointer group active:scale-95 transition"
-          title="Bấm để xem chi tiết tiến độ tập"
+          className="forma-card rounded-2xl p-3 border-emerald-500/25 hover:border-emerald-400/40 cursor-pointer active:scale-95 transition flex flex-col items-center group relative overflow-hidden"
+          title="Bấm để xem chi tiết tiến độ bài tập"
         >
-          <div className="relative w-20 h-20 flex items-center justify-center">
+          <div className="relative w-16 h-16 sm:w-18 sm:h-18 flex items-center justify-center my-1">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
               <path
                 className="text-white/10"
@@ -250,7 +255,7 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
               />
               <path
                 className="text-emerald-400 transition-all duration-700 ease-out"
-                strokeDasharray={`${xpPercent}, 100`}
+                strokeDasharray={`${workoutPercent}, 100`}
                 strokeWidth="3.5"
                 strokeLinecap="round"
                 stroke="currentColor"
@@ -259,25 +264,30 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
               />
             </svg>
             <div className="absolute flex flex-col items-center text-center">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400 mb-0.5" />
-              <span className="text-xs font-mono font-black text-white leading-none">{xpPercent}%</span>
-              <span className="text-[8px] font-mono text-gray-400 mt-0.5">EXP</span>
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="text-xs font-mono font-black text-white leading-none mt-0.5">{workoutPercent}%</span>
             </div>
           </div>
-          <span className="text-[10px] font-mono text-emerald-400 font-bold mt-1.5 group-hover:underline flex items-center">
-            <span>Tập luyện</span>
-            <ChevronRight className="w-3 h-3" />
-          </span>
+
+          <div className="text-center mt-1">
+            <div className="text-xs font-bold text-white group-hover:text-emerald-300 transition flex items-center justify-center space-x-1">
+              <span>Tập Luyện (EXP)</span>
+              <ChevronRight className="w-3 h-3 text-emerald-400" />
+            </div>
+            <p className="text-[10px] text-gray-400 font-mono">
+              {workout.completedSets}/{workout.totalSets} Sets Hoàn Thành
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* QUICK FOOTER STATS */}
-      <div className="w-full grid grid-cols-2 gap-2 pt-1 font-mono text-xs relative z-10">
-        <div className="bg-black/50 p-2.5 rounded-2xl border border-white/5 flex items-center justify-between">
+      {/* 5. FOOTER QUICK STATS */}
+      <div className="w-full grid grid-cols-2 gap-2 pt-0.5 font-mono text-xs relative z-10">
+        <div className="bg-black/50 p-2 rounded-xl border border-white/5 flex items-center justify-between">
           <span className="text-[10px] text-gray-400">SỨC MẠNH:</span>
           <span className="font-extrabold text-white text-xs">{pet.str} STR</span>
         </div>
-        <div className="bg-black/50 p-2.5 rounded-2xl border border-white/5 flex items-center justify-between">
+        <div className="bg-black/50 p-2 rounded-xl border border-white/5 flex items-center justify-between">
           <span className="text-[10px] text-gray-400">TRẠNG THÁI:</span>
           <span className="font-extrabold text-emerald-400 text-xs">
             {hpPercent >= 80 ? 'Sung Mãn 🔥' : hpPercent >= 40 ? 'Bình Thường ⚡' : 'Đói Lả 🥩'}
@@ -299,100 +309,141 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
                   <Utensils className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">Vòng Tròn Macro Dinh Dưỡng</h3>
+                  <h3 className="text-sm font-black text-white">Vòng Tròn Macro Dinh Dưỡng</h3>
                   <p className="text-[10px] text-gray-400 font-mono">Quyết định tốc độ hồi phục HP của Pet</p>
                 </div>
               </div>
+
               <button
                 onClick={() => setShowMacroModal(false)}
-                className="p-1.5 rounded-lg bg-white/5 text-gray-400 hover:text-white"
+                className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Concentric Multi-Ring Wheel (4 Colors) */}
-            <div className="flex flex-col items-center justify-center py-2">
-              <div className="relative w-44 h-44 flex items-center justify-center shrink-0">
+            {/* Concentric Macro Rings */}
+            <div className="flex flex-col items-center py-2">
+              <div className="relative w-48 h-48 flex items-center justify-center">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
-                  <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
-                  <circle cx="60" cy="60" r="30" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
-                  <circle cx="60" cy="60" r="20" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
+                  {/* Calorie Ring (Green) */}
+                  <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.08)" strokeWidth="6" fill="transparent" />
+                  <circle
+                    cx="60" cy="60" r="50"
+                    stroke="#22C55E"
+                    strokeWidth="6"
+                    strokeDasharray={c1}
+                    strokeDashoffset={offset1}
+                    strokeLinecap="round"
+                    fill="transparent"
+                    className="transition-all duration-700 ease-out"
+                  />
 
-                  {/* Ring 1: Calories (Xanh lá) */}
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="#22C55E" strokeWidth="6" strokeLinecap="round" strokeDasharray={c1} strokeDashoffset={offset1} />
-                  {/* Ring 2: Protein (Hồng đỏ) */}
-                  <circle cx="60" cy="60" r="40" fill="none" stroke="#F43F5E" strokeWidth="6" strokeLinecap="round" strokeDasharray={c2} strokeDashoffset={offset2} />
-                  {/* Ring 3: Carb (Trắng) */}
-                  <circle cx="60" cy="60" r="30" fill="none" stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round" strokeDasharray={c3} strokeDashoffset={offset3} />
-                  {/* Ring 4: Fat (Vàng) */}
-                  <circle cx="60" cy="60" r="20" fill="none" stroke="#EAB308" strokeWidth="6" strokeLinecap="round" strokeDasharray={c4} strokeDashoffset={offset4} />
+                  {/* Protein Ring (Pink-Red) */}
+                  <circle cx="60" cy="60" r="40" stroke="rgba(255,255,255,0.08)" strokeWidth="6" fill="transparent" />
+                  <circle
+                    cx="60" cy="60" r="40"
+                    stroke="#F43F5E"
+                    strokeWidth="6"
+                    strokeDasharray={c2}
+                    strokeDashoffset={offset2}
+                    strokeLinecap="round"
+                    fill="transparent"
+                    className="transition-all duration-700 ease-out"
+                  />
+
+                  {/* Carb Ring (White) */}
+                  <circle cx="60" cy="60" r="30" stroke="rgba(255,255,255,0.08)" strokeWidth="6" fill="transparent" />
+                  <circle
+                    cx="60" cy="60" r="30"
+                    stroke="#FFFFFF"
+                    strokeWidth="6"
+                    strokeDasharray={c3}
+                    strokeDashoffset={offset3}
+                    strokeLinecap="round"
+                    fill="transparent"
+                    className="transition-all duration-700 ease-out"
+                  />
+
+                  {/* Fat Ring (Yellow) */}
+                  <circle cx="60" cy="60" r="20" stroke="rgba(255,255,255,0.08)" strokeWidth="6" fill="transparent" />
+                  <circle
+                    cx="60" cy="60" r="20"
+                    stroke="#EAB308"
+                    strokeWidth="6"
+                    strokeDasharray={c4}
+                    strokeDashoffset={offset4}
+                    strokeLinecap="round"
+                    fill="transparent"
+                    className="transition-all duration-700 ease-out"
+                  />
                 </svg>
 
-                <div className="absolute flex flex-col items-center text-center">
-                  <span className="text-[10px] font-mono text-emerald-400 font-bold">CALORIES</span>
-                  <span className="text-base font-extrabold text-white font-mono leading-none my-0.5">
-                    {macro.calories.current}
-                  </span>
-                  <span className="text-[9px] text-gray-400 font-mono">/ {macro.calories.total}</span>
+                {/* Center Kcal Stat */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span className="text-base font-black font-mono text-white leading-none">{macro.calories.current}</span>
+                  <span className="text-[9px] text-gray-400 font-mono mt-0.5">/ {macro.calories.total} kcal</span>
                 </div>
               </div>
             </div>
 
-            {/* 4 Color Legends */}
+            {/* 4 Macro Breakdown Legend */}
             <div className="grid grid-cols-2 gap-2 font-mono text-xs">
-              <div className="bg-black/50 p-2.5 rounded-xl border border-white/5 flex items-center space-x-2">
-                <span className="w-3 h-3 rounded-full bg-[#22C55E] shrink-0" />
-                <div className="min-w-0">
-                  <span className="text-[10px] text-emerald-400 font-bold block">KCAL ({calPercent}%)</span>
-                  <span className="text-xs font-bold text-white">{macro.calories.current}/{macro.calories.total}</span>
+              {/* Kcal */}
+              <div className="p-2.5 rounded-xl bg-black/40 border border-emerald-500/20">
+                <div className="flex items-center space-x-1.5 mb-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#22C55E]" />
+                  <span className="font-bold text-white text-[11px]">KCAL ({calPercent}%)</span>
                 </div>
+                <div className="text-emerald-400 font-extrabold">{macro.calories.current} / {macro.calories.total}</div>
               </div>
 
-              <div className="bg-black/50 p-2.5 rounded-xl border border-white/5 flex items-center space-x-2">
-                <span className="w-3 h-3 rounded-full bg-[#F43F5E] shrink-0" />
-                <div className="min-w-0">
-                  <span className="text-[10px] text-[#F43F5E] font-bold block">PROTEIN ({proPercent}%)</span>
-                  <span className="text-xs font-bold text-white">{macro.protein.current}/{macro.protein.total}g</span>
+              {/* Protein */}
+              <div className="p-2.5 rounded-xl bg-black/40 border border-pink-500/20">
+                <div className="flex items-center space-x-1.5 mb-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#F43F5E]" />
+                  <span className="font-bold text-white text-[11px]">PROTEIN ({proPercent}%)</span>
                 </div>
+                <div className="text-pink-400 font-extrabold">{macro.protein.current} / {macro.protein.total}g</div>
               </div>
 
-              <div className="bg-black/50 p-2.5 rounded-xl border border-white/5 flex items-center space-x-2">
-                <span className="w-3 h-3 rounded-full bg-[#FFFFFF] shrink-0" />
-                <div className="min-w-0">
-                  <span className="text-[10px] text-white font-bold block">CARB ({carbPercent}%)</span>
-                  <span className="text-xs font-bold text-white">{macro.carb.current}/{macro.carb.total}g</span>
+              {/* Carb */}
+              <div className="p-2.5 rounded-xl bg-black/40 border border-white/20">
+                <div className="flex items-center space-x-1.5 mb-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#FFFFFF]" />
+                  <span className="font-bold text-white text-[11px]">CARB ({carbPercent}%)</span>
                 </div>
+                <div className="text-white font-extrabold">{macro.carb.current} / {macro.carb.total}g</div>
               </div>
 
-              <div className="bg-black/50 p-2.5 rounded-xl border border-white/5 flex items-center space-x-2">
-                <span className="w-3 h-3 rounded-full bg-[#EAB308] shrink-0" />
-                <div className="min-w-0">
-                  <span className="text-[10px] text-[#EAB308] font-bold block">FAT ({fatPercent}%)</span>
-                  <span className="text-xs font-bold text-white">{macro.fat.current}/{macro.fat.total}g</span>
+              {/* Fat */}
+              <div className="p-2.5 rounded-xl bg-black/40 border border-yellow-500/20">
+                <div className="flex items-center space-x-1.5 mb-1">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#EAB308]" />
+                  <span className="font-bold text-white text-[11px]">FAT ({fatPercent}%)</span>
                 </div>
+                <div className="text-yellow-400 font-extrabold">{macro.fat.current} / {macro.fat.total}g</div>
               </div>
             </div>
 
-            {/* HP Regen Formula Status */}
-            <div className="bg-black/40 p-3 rounded-2xl border border-white/5 text-xs text-gray-300 space-y-1">
-              <span className="text-emerald-400 font-mono font-bold block">CƠ CHẾ HỒI PHỤC HP:</span>
-              <p className="text-[11px] leading-relaxed">
-                Pet đã hồi phục <strong className="text-white">{hpPercent}% HP</strong> nhờ nạp đủ trung bình 4 chỉ số Calo, Protein, Carb và Fat. Đạt 100% KPI hôm nay để Pet phục hồi trọn vẹn sinh lực!
+            {/* HP Formula Explainer */}
+            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-3 text-[11px] text-gray-300 space-y-1">
+              <span className="font-bold text-emerald-400 font-mono block">⚡ CÔNG THỨC HỒI MÁU CHO PET:</span>
+              <p className="leading-relaxed">
+                HP hồi phục theo trọng số cân bằng (0.25 Kcal + 0.25 Protein + 0.25 Carb + 0.25 Fat). Đạt trọn vẹn cả 4 chỉ số để Pet hồi sinh 100% HP!
               </p>
             </div>
 
-            {/* Quick Action Button */}
+            {/* Action Button */}
             <button
               onClick={() => {
                 setShowMacroModal(false);
                 if (onGoToMacro) onGoToMacro();
               }}
-              className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs flex items-center justify-center space-x-1.5 shadow-glow-green transition"
+              className="w-full py-3 rounded-2xl bg-emerald-500 text-black font-extrabold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 hover:bg-emerald-400 transition"
             >
-              <span>VÀO NHẬT KÝ ĐỂ CHO PET ĂN</span>
-              <ChevronRight className="w-4 h-4" />
+              <Utensils className="w-4 h-4" />
+              <span>Chuyển Sang Tab Macro & Bữa Ăn</span>
             </button>
           </div>
         </div>
@@ -403,7 +454,7 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
       {/* ============================================================ */}
       {showWorkoutModal && (
         <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex flex-col justify-end sm:justify-center items-center p-0 sm:p-4 animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-[#0F1411] border border-emerald-500/30 rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto space-y-4">
+          <div className="w-full max-w-md bg-[#0F1411] border border-emerald-500/30 rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto space-y-4">
             
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
@@ -412,21 +463,22 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
                   <Dumbbell className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">Tiến Độ Buổi Tập</h3>
+                  <h3 className="text-sm font-black text-white">Tiến Độ Tập Luyện Hôm Nay</h3>
                   <p className="text-[10px] text-gray-400 font-mono">{workout.dayName}</p>
                 </div>
               </div>
+
               <button
                 onClick={() => setShowWorkoutModal(false)}
-                className="p-1.5 rounded-lg bg-white/5 text-gray-400 hover:text-white"
+                className="p-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Single Workout Progress Wheel */}
-            <div className="flex flex-col items-center justify-center py-2">
-              <div className="relative w-36 h-36 flex items-center justify-center shrink-0">
+            {/* Single % Workout Wheel */}
+            <div className="flex flex-col items-center py-2">
+              <div className="relative w-40 h-40 flex items-center justify-center">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                   <path
                     className="text-white/10"
@@ -436,7 +488,7 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <path
-                    className="text-emerald-500 transition-all duration-700 ease-out"
+                    className="text-emerald-400 transition-all duration-700 ease-out"
                     strokeDasharray={`${workoutPercent}, 100`}
                     strokeWidth="3.5"
                     strokeLinecap="round"
@@ -445,42 +497,47 @@ export const PetCompanionCard: React.FC<PetCompanionCardProps> = ({
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                 </svg>
-                <div className="absolute flex flex-col items-center">
-                  <span className="text-xl font-extrabold text-white font-mono leading-none">{workoutPercent}%</span>
-                  <span className="text-[9px] text-gray-400 font-mono mt-0.5">HOÀN TẤT</span>
+                <div className="absolute flex flex-col items-center text-center">
+                  <span className="text-3xl font-mono font-black text-emerald-400 leading-none">{workoutPercent}%</span>
+                  <span className="text-[10px] font-mono text-gray-400 mt-1">ĐÃ HOÀN THÀNH</span>
                 </div>
               </div>
             </div>
 
-            {/* Detailed sets and exercises info */}
-            <div className="grid grid-cols-2 gap-2 text-center font-mono text-xs">
-              <div className="bg-black/50 p-3 rounded-2xl border border-white/5">
-                <span className="text-[10px] text-gray-400 block mb-0.5">SETS ĐÃ TẬP</span>
-                <span className="text-sm font-bold text-white">{workout.completedSets} / {workout.totalSets} Sets</span>
+            {/* Details */}
+            <div className="grid grid-cols-2 gap-2 font-mono text-xs">
+              <div className="bg-black/40 p-3 rounded-2xl border border-white/5 text-center">
+                <span className="text-[10px] text-gray-400 block mb-0.5">SỐ BÀI TẬP</span>
+                <span className="text-sm font-extrabold text-white">
+                  {workout.completedExercises} / {workout.totalExercises} Bài
+                </span>
               </div>
-              <div className="bg-black/50 p-3 rounded-2xl border border-white/5">
-                <span className="text-[10px] text-gray-400 block mb-0.5">BÀI ĐÃ TẬP</span>
-                <span className="text-sm font-bold text-emerald-400">{workout.completedExercises} / {workout.totalExercises} Bài</span>
+              <div className="bg-black/40 p-3 rounded-2xl border border-white/5 text-center">
+                <span className="text-[10px] text-gray-400 block mb-0.5">SỐ HIỆP (SETS)</span>
+                <span className="text-sm font-extrabold text-emerald-400">
+                  {workout.completedSets} / {workout.totalSets} Sets
+                </span>
               </div>
             </div>
 
-            <div className="bg-black/40 p-3 rounded-2xl border border-white/5 text-xs text-gray-300">
-              <span className="text-emerald-400 font-mono font-bold block mb-0.5">TẬP CÀY EXP CHO PET:</span>
-              <p className="text-[11px] leading-relaxed">
-                Mỗi Set bạn hoàn thành trong tab Tập luyện sẽ truyền trực tiếp <strong className="text-white">+35 EXP</strong> và <strong className="text-white">+2 STR</strong> cho Pet!
+            {/* Gamification Tip */}
+            <div className="bg-black/50 border border-white/5 rounded-2xl p-3 flex items-center space-x-2.5">
+              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+              <p className="text-[11px] text-gray-300 leading-relaxed font-mono">
+                Mỗi set hoàn thành cộng ngay <strong className="text-emerald-400">+25 EXP</strong> cho Pet!
               </p>
             </div>
 
-            {/* Quick Action Button */}
+            {/* Action Button */}
             <button
               onClick={() => {
                 setShowWorkoutModal(false);
                 if (onGoToWorkout) onGoToWorkout();
               }}
-              className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs flex items-center justify-center space-x-1.5 shadow-glow-green transition"
+              className="w-full py-3 rounded-2xl bg-emerald-500 text-black font-extrabold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 hover:bg-emerald-400 transition"
             >
-              <span>VÀO TẬP LUYỆN ĐỂ CÀY EXP</span>
-              <ChevronRight className="w-4 h-4" />
+              <Dumbbell className="w-4 h-4" />
+              <span>Tiếp Tục Buổi Tập Luyện</span>
             </button>
           </div>
         </div>

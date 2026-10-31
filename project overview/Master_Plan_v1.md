@@ -80,11 +80,15 @@ Một bước chuyển mình đột phá: **Nhân vật ảo (Avatar/Pet) chính
      - Nhân vật chuyển sang trạng thái ì ạch, thở dốc nếu user bỏ tập quá 3 ngày liên tiếp.
 
 #### B. Thiết Kế Tab Hôm Nay Tinh Giản (2 Card Duy Nhất - Pet Làm Trung Tâm):
-- **Card 1: Card Streak (Nằm ở trên cùng):** Lịch chuỗi ngày tập liên tục.
-- **Card 2: Hero Pet Card (Borderless):**
-  - Chạm vào Pet để tương tác hội thoại và xem animation gồng cơ.
-  - **Wheel HP:** Vòng tròn HP năng lượng. Khi bấm vào sẽ bật Popup hiển thị Vòng tròn Macro 4 màu (Kcal, Protein, Carb, Fat).
-  - **Wheel EXP:** Vòng tròn EXP tiến độ. Khi bấm vào sẽ bật Popup hiển thị Vòng tròn Tiến độ Tập luyện (% và số set hoàn thành).
+- **Card 1: Card Streak Lịch 30 Ngày (Nằm ở trên cùng):**
+  - Hiển thị dạng lưới lịch mini 30 ngày (đánh dấu ngày hoàn thành, hôm nay, chuỗi streak).
+  - Khi click vào card: Tự động mở Modal Phóng to (Zoom-in) cho phép điều hướng xem toàn bộ lịch sử các tháng trước (`< Tháng 9`, `Tháng 10 >`), tỷ lệ hoàn thành tháng và kỷ lục streak.
+- **Card 2: Hero Pet Card (Borderless & Tràn trang):**
+  - Pet Avatar trung tâm lớn, tương tác chạm gồng cơ & phát thoại động viên.
+  - **2 Vòng Tròn (Wheels) được bố trí ngay bên dưới Pet Avatar:**
+    - **Wheel HP:** Vòng tròn HP năng lượng sinh tồn. Khi bấm vào sẽ bật Popup hiển thị Vòng tròn Macro 4 màu (Kcal, Protein, Carb, Fat).
+    - **Wheel EXP:** Vòng tròn EXP tiến độ tập luyện. Khi bấm vào sẽ bật Popup hiển thị Vòng tròn Tiến độ Tập luyện (% và số set hoàn thành).
+  - Bố cục tràn màn hình tạo cảm giác app mobile chuyên nghiệp, liền mạch.
 
 #### B. Vòng Lặp Phản Hồi & Thưởng (Feedback Loop):
 - **Tập luyện (Workout Complete):** ➔ Nhận XP + Thể lực cho Pet ➔ Nhân vật lên Level / Học được Skill mới.

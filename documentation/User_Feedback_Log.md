@@ -31,3 +31,20 @@ $$\text{HP\%} = 100 \times \left(0.25 \times \frac{\text{kcal}}{\text{target\_kc
 ### B. Cơ chế Tăng cấp EXP & Level Up:
 - Mỗi khi hoàn thành bài tập / set tập: Cộng trực tiếp EXP vào thanh tiến độ Pet.
 - Đủ EXP trong ngày hoặc qua ngày mới kỷ luật: Pet tăng 1 Cấp độ (Level Up).
+
+---
+
+## 3. FEEDBACK FB-20261031-06 (CARD STREAK LỊCH 30 NGÀY & VỊ TRÍ 2 WHEEL PET)
+
+**Mã phiên ghi nhận:** FB-20261031-06  
+**Chủ đề:** Streak Lịch 30 Ngày Phóng To / Xem Lịch Sử Tháng Trước; Bố Trí 2 Wheel (HP & EXP) Xuống Dưới Pet Tràn Màn Hình.
+
+### Yêu cầu chi tiết:
+1. **Card Streak Lịch 30 Ngày:**
+   - Vẽ dạng lưới lịch 30 ngày (mini month grid) thay vì chỉ 7 ngày.
+   - Khi click vào Card Streak: Tự động phóng to ra modal toàn màn hình/zoom-in.
+   - Hỗ trợ chuyển tháng (Tháng trước / Tháng sau) để xem lại toàn bộ lịch sử rèn luyện và streak của các tháng trước.
+2. **Bố trí 2 Wheel Macro & Tập Luyện xuống Dưới Pet:**
+   - Thay vì nằm 2 bên hông Pet, chuyển 2 Wheel (HP/Macro và EXP/Workout) xuống ngay bên dưới Pet Avatar.
+   - Cân đối tỷ lệ đồ họa để Tab Hôm nay tràn trọn vẹn 1 trang màn hình app, chuẩn hóa trải nghiệm mobile-first không bị cụt hay trống trải.
+
