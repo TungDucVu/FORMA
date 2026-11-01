@@ -144,7 +144,7 @@ export default function Home() {
       </header>
 
       {/* MAIN TAB CONTENT */}
-      <main className="flex-1 overflow-y-auto pb-4">
+      <main className="flex-1 overflow-y-auto pb-4 no-scrollbar">
         {activeTab === 'today' && (
           <TodayProgressDashboard
             pet={petState}

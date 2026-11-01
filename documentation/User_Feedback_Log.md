@@ -122,6 +122,19 @@ $$\text{HP\%} = 100 \times \left(0.25 \times \frac{\text{kcal}}{\text{target\_kc
    - Khi mở Tab, bản đồ tự động cuộn đến vị trí Tầng hiện tại mà Pet đang đứng (`scrollIntoView` mượt mà).
    - Bổ sung nút bấm nổi: *"🎯 Về Vị Trí Của Tôi"* để lập tức quay lại tầng đang tập nếu người dùng cuộn đi khám phá các tầng khác.
 
+---
+
+## 8. FEEDBACK FB-20261101-11 (ẨN HOÀN TOÀN THANH CUỘN / NO-SCROLLBAR)
+
+**Mã phiên ghi nhận:** FB-20261101-11  
+**Chủ đề:** Ẩn hoàn toàn thanh cuộn (scrollbars) trong toàn bộ ứng dụng và khung thẻ bản đồ leo tháp, giữ nguyên tính năng cuộn vuốt mượt mà.
+
+### Yêu cầu chi tiết:
+1. **Ẩn Thanh Cuộn (No Scrollbar):**
+   - Loại bỏ hiển thị thanh cuộn mặc định của trình duyệt (`scrollbar-width: none`, `-ms-overflow-style: none`, `::-webkit-scrollbar { display: none }`).
+   - Áp dụng triệt để cho Card Bản đồ Leo Tháp, các khung danh sách và view chính của app, mang lại cảm giác ứng dụng di động native đẳng cấp và tinh gọn.
+
+
 
 
 

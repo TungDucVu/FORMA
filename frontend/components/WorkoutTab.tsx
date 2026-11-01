@@ -527,10 +527,14 @@ export const WorkoutTab: React.FC<WorkoutTabProps> = ({
             </button>
           </div>
 
-          {/* SCROLLABLE CONTAINER BODY */}
+          {/* SCROLLABLE CONTAINER BODY (NO SCROLLBAR) */}
           <div
             ref={mapScrollContainerRef}
-            className="overflow-y-auto max-h-[520px] p-4 relative scroll-smooth space-y-4"
+            className="overflow-y-auto max-h-[520px] p-4 relative scroll-smooth space-y-4 no-scrollbar"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
           >
             {/* Ambient Lighting Background */}
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
