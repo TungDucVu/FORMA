@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Dumbbell, 
   Check, 
@@ -19,7 +19,9 @@ import {
   Star, 
   Flame, 
   MapPin, 
-  ArrowLeft 
+  ArrowLeft,
+  Navigation,
+  Gift
 } from 'lucide-react';
 
 export interface ExerciseItem {
@@ -38,13 +40,15 @@ export interface ExerciseItem {
 export interface TowerDayNode {
   dayNumber: number;
   stageName: string;
+  chapterTitle: string;
   focusTitle: string;
   status: 'completed' | 'active' | 'locked';
   stars: number; // 0 to 3
   isBoss?: boolean;
+  isRewardChest?: boolean;
   expReward: number;
   calReward: number;
-  positionX: number; // percentage horizontal offset: 20%, 50%, 80%, etc.
+  positionX: number; // percentage horizontal offset: 25%, 50%, 75%, etc.
   exercises: ExerciseItem[];
 }
 
@@ -53,7 +57,7 @@ interface WorkoutTabProps {
   onToggleSet: (exerciseId: string, setIndex: number) => void;
 }
 
-// 1. Initial Exercise Bank
+// Exercise Banks for Days
 const standardExercisesDay3: ExerciseItem[] = [
   {
     id: 'ex-1',
@@ -159,11 +163,13 @@ const standardExercisesDay2: ExerciseItem[] = [
   },
 ];
 
-// 2. Tower Stages Map Data (Candy Crush / Leo Tháp RPG Style)
+// 16-Stage Multi-Chapter Saga Tower Road
 const towerStages: TowerDayNode[] = [
+  // Chặng 1: Thức Tỉnh Sức Mạnh
   {
     dayNumber: 1,
-    stageName: 'Chặng 1 • Tầng 1',
+    stageName: 'Tầng 1',
+    chapterTitle: 'Chặng 1: Thức Tỉnh Cơ Bắp',
     focusTitle: 'Upper Body Push (Ngực & Tay Sau)',
     status: 'completed',
     stars: 3,
@@ -174,7 +180,8 @@ const towerStages: TowerDayNode[] = [
   },
   {
     dayNumber: 2,
-    stageName: 'Chặng 1 • Tầng 2',
+    stageName: 'Tầng 2',
+    chapterTitle: 'Chặng 1: Thức Tỉnh Cơ Bắp',
     focusTitle: 'Lower Body (Đùi & Mông)',
     status: 'completed',
     stars: 3,
@@ -185,18 +192,20 @@ const towerStages: TowerDayNode[] = [
   },
   {
     dayNumber: 3,
-    stageName: 'Chặng 1 • Tầng 3',
+    stageName: 'Tầng 3',
+    chapterTitle: 'Chặng 1: Thức Tỉnh Cơ Bắp',
     focusTitle: 'Upper Body Push & Pull (Hôm Nay)',
     status: 'active', // CURRENT DAY!
     stars: 0,
     expReward: 200,
     calReward: 335,
-    positionX: 65,
+    positionX: 70,
     exercises: standardExercisesDay3,
   },
   {
     dayNumber: 4,
-    stageName: 'Chặng 1 • Tầng 4',
+    stageName: 'Tầng 4',
+    chapterTitle: 'Chặng 1: Thức Tỉnh Cơ Bắp',
     focusTitle: 'Shoulder & Core (Vai & Bụng)',
     status: 'locked',
     stars: 0,
@@ -207,8 +216,9 @@ const towerStages: TowerDayNode[] = [
   },
   {
     dayNumber: 5,
-    stageName: 'Chặng 1 • Tầng 5',
-    focusTitle: 'Boss Floor: Thử Thách Toàn Thân',
+    stageName: 'Tầng 5',
+    chapterTitle: 'Chặng 1: Thử Thách Boss',
+    focusTitle: '👑 Boss Floor: Full Body Hypertrophy',
     status: 'locked',
     stars: 0,
     isBoss: true,
@@ -217,10 +227,13 @@ const towerStages: TowerDayNode[] = [
     positionX: 50,
     exercises: standardExercisesDay3,
   },
+
+  // Chặng 2: Khung Thép Tôi Luyện
   {
     dayNumber: 6,
-    stageName: 'Chặng 2 • Tầng 6',
-    focusTitle: 'Hypertrophy Bench & Dips',
+    stageName: 'Tầng 6',
+    chapterTitle: 'Chặng 2: Khung Thép Tôi Luyện',
+    focusTitle: 'Incline Dumbbell Press & Dips',
     status: 'locked',
     stars: 0,
     expReward: 220,
@@ -230,24 +243,128 @@ const towerStages: TowerDayNode[] = [
   },
   {
     dayNumber: 7,
-    stageName: 'Chặng 2 • Tầng 7',
+    stageName: 'Tầng 7',
+    chapterTitle: 'Chặng 2: Khung Thép Tôi Luyện',
     focusTitle: 'Deadlift Power & Lưng Dưới',
     status: 'locked',
     stars: 0,
     expReward: 260,
     calReward: 340,
-    positionX: 30,
+    positionX: 25,
     exercises: standardExercisesDay3,
   },
   {
     dayNumber: 8,
-    stageName: 'Chặng 2 • Tầng 8',
-    focusTitle: 'Đỉnh Cao Thể Lực & Sức Bền',
+    stageName: 'Tầng 8',
+    chapterTitle: 'Chặng 2: Khung Thép Tôi Luyện',
+    focusTitle: 'Leg Extension & Hamstring Curls',
+    status: 'locked',
+    stars: 0,
+    expReward: 240,
+    calReward: 310,
+    positionX: 65,
+    exercises: standardExercisesDay3,
+  },
+  {
+    dayNumber: 9,
+    stageName: 'Tầng 9',
+    chapterTitle: 'Chặng 2: Khung Thép Tôi Luyện',
+    focusTitle: 'Overhead Military Press',
+    status: 'locked',
+    stars: 0,
+    expReward: 230,
+    calReward: 290,
+    positionX: 30,
+    exercises: standardExercisesDay3,
+  },
+  {
+    dayNumber: 10,
+    stageName: 'Tầng 10',
+    chapterTitle: 'Chặng 2: Thử Thách Boss',
+    focusTitle: '👑 Boss Floor: Siêu Chuỗi Sức Mạnh',
     status: 'locked',
     stars: 0,
     isBoss: true,
     expReward: 400,
-    calReward: 450,
+    calReward: 460,
+    positionX: 50,
+    exercises: standardExercisesDay3,
+  },
+
+  // Chặng 3: Phá Giới Bứt Phá
+  {
+    dayNumber: 11,
+    stageName: 'Tầng 11',
+    chapterTitle: 'Chặng 3: Phá Giới Bứt Phá',
+    focusTitle: 'Heavy Chest & Cable Fly',
+    status: 'locked',
+    stars: 0,
+    expReward: 280,
+    calReward: 350,
+    positionX: 75,
+    exercises: standardExercisesDay3,
+  },
+  {
+    dayNumber: 12,
+    stageName: 'Tầng 12',
+    chapterTitle: 'Chặng 3: Phá Giới Bứt Phá',
+    focusTitle: 'Weighted Pull-ups & Rows',
+    status: 'locked',
+    stars: 0,
+    expReward: 300,
+    calReward: 370,
+    positionX: 30,
+    exercises: standardExercisesDay3,
+  },
+  {
+    dayNumber: 13,
+    stageName: 'Tầng 13',
+    chapterTitle: 'Chặng 3: Phá Giới Bứt Phá',
+    focusTitle: 'Heavy Squat & Calf Raise',
+    status: 'locked',
+    stars: 0,
+    expReward: 320,
+    calReward: 390,
+    positionX: 65,
+    exercises: standardExercisesDay3,
+  },
+  {
+    dayNumber: 14,
+    stageName: 'Tầng 14',
+    chapterTitle: 'Chặng 3: Phá Giới Bứt Phá',
+    focusTitle: 'Face Pulls & Lateral Blaster',
+    status: 'locked',
+    stars: 0,
+    expReward: 290,
+    calReward: 340,
+    positionX: 35,
+    exercises: standardExercisesDay3,
+  },
+  {
+    dayNumber: 15,
+    stageName: 'Tầng 15',
+    chapterTitle: 'Chặng 3: Rương Báu',
+    focusTitle: '🎁 Rương Báu Tiến Hóa Linh Vật Pet',
+    status: 'locked',
+    stars: 0,
+    isRewardChest: true,
+    expReward: 500,
+    calReward: 500,
+    positionX: 50,
+    exercises: standardExercisesDay3,
+  },
+
+  // Chặng 4: Đỉnh Cao Thể Lực
+  {
+    dayNumber: 16,
+    stageName: 'Tầng 16',
+    chapterTitle: 'Chặng 4: Đỉnh Cao Thể Lực',
+    focusTitle: '🏆 ĐỈNH THÁP FORMA: Danh Hiệu Chiến Binh',
+    status: 'locked',
+    stars: 0,
+    isBoss: true,
+    expReward: 600,
+    calReward: 600,
     positionX: 50,
     exercises: standardExercisesDay3,
   },
@@ -267,10 +384,33 @@ export const WorkoutTab: React.FC<WorkoutTabProps> = ({
   const [showListDrawer, setShowListDrawer] = useState<boolean>(false);
   const [shakeLockedDay, setShakeLockedDay] = useState<number | null>(null);
 
+  // References for Scrollable Card Auto-scroll
+  const mapScrollContainerRef = useRef<HTMLDivElement>(null);
+  const activeNodeRef = useRef<HTMLDivElement>(null);
+
   const activeExercises = selectedDayNode.exercises;
   const currentExercise = activeExercises[currentIndex] || activeExercises[0];
   const completedCount = completedSetsMap[currentExercise?.id] || 0;
   const isCurrentDone = completedCount >= (currentExercise?.sets || 4);
+
+  // Auto-scroll to Current Active Floor on mount / view switch
+  useEffect(() => {
+    if (viewMode === 'map' && activeNodeRef.current) {
+      setTimeout(() => {
+        activeNodeRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }, 150);
+    }
+  }, [viewMode]);
+
+  const scrollToMyPosition = () => {
+    activeNodeRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  };
 
   // Touch swipe handling (like Tinder/Bumble: swipe right-to-left to next)
   const touchStartX = useRef<number>(0);
@@ -314,15 +454,15 @@ export const WorkoutTab: React.FC<WorkoutTabProps> = ({
   };
 
   // ============================================================
-  // VIEW 1: BẢN ĐỒ LEO THÁP CANDY CRUSH / SAGA MAP (MẶC ĐỊNH)
+  // VIEW 1: BẢN ĐỒ LEO THÁP LÀ SCROLLABLE CARD (MẶC ĐỊNH)
   // ============================================================
   if (viewMode === 'map') {
     const totalStars = towerStages.reduce((acc, n) => acc + n.stars, 0);
 
     return (
-      <div className="space-y-4 pb-12">
-        {/* TOWER HEADER CARD */}
-        <div className="forma-card rounded-2xl p-4 border-emerald-500/25 relative overflow-hidden">
+      <div className="space-y-3 pb-8">
+        {/* TOWER TOP STATUS BAR */}
+        <div className="forma-card rounded-2xl p-3 border-emerald-500/25 relative overflow-hidden">
           <div className="flex items-center justify-between pb-2 border-b border-white/5">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xs shadow-glow-green">
@@ -330,20 +470,20 @@ export const WorkoutTab: React.FC<WorkoutTabProps> = ({
               </div>
               <div>
                 <h2 className="text-sm font-black text-white uppercase tracking-wider">
-                  Bản Đồ Tháp Sức Mạnh
+                  Tháp Sức Mạnh FORMA
                 </h2>
-                <p className="text-[10px] text-gray-400 font-mono">Leo tháp từng ngày để tiến hóa Pet</p>
+                <p className="text-[10px] text-gray-400 font-mono">Bản đồ leo tháp độc lập • Cuộn để khám phá</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-1.5 bg-black/60 border border-emerald-500/30 px-2.5 py-1 rounded-xl text-xs font-mono font-bold text-yellow-400">
               <Star className="w-3.5 h-3.5 fill-yellow-400" />
-              <span>{totalStars} / 24 ⭐</span>
+              <span>{totalStars} / 48 ⭐</span>
             </div>
           </div>
 
           {/* Quick Action: Resume current stage */}
-          <div className="pt-3 flex items-center justify-between">
+          <div className="pt-2.5 flex items-center justify-between">
             <div>
               <span className="text-[10px] font-mono text-emerald-400 uppercase font-bold block">
                 • VỊ TRÍ HIỆN TẠI •
@@ -358,133 +498,155 @@ export const WorkoutTab: React.FC<WorkoutTabProps> = ({
                 const active = towerStages.find((s) => s.status === 'active') || towerStages[2];
                 handleSelectDay(active);
               }}
-              className="py-2 px-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider flex items-center space-x-1.5 shadow-glow-green active:scale-95 transition"
+              className="py-1.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider flex items-center space-x-1.5 shadow-glow-green active:scale-95 transition"
             >
-              <Play className="w-3.5 h-3.5 fill-black" />
+              <Play className="w-3 h-3 fill-black" />
               <span>Tập Ngay</span>
             </button>
           </div>
         </div>
 
         {/* ============================================================ */}
-        {/* WINDING TOWER ROAD (CON ĐƯỜNG LEO THÁP UỐN LƯỢN ZÍC ZẮC) */}
+        {/* SCROLLABLE CARD: BẢN ĐỒ THÁP ĐỘC LẬP (CUỘN MƯỢT MÀ) */}
         {/* ============================================================ */}
-        <div className="relative py-4 px-2 forma-card rounded-3xl border-emerald-500/15 overflow-hidden min-h-[580px] flex flex-col justify-end">
-          {/* Ambient Lighting Background */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative forma-card rounded-3xl border-emerald-500/20 overflow-hidden shadow-2xl">
+          
+          {/* Top Banner Hint Inside Card */}
+          <div className="sticky top-0 z-30 bg-[#0F1411]/90 backdrop-blur-md px-4 py-2 border-b border-white/5 flex items-center justify-between">
+            <span className="text-[10px] font-mono text-gray-400">
+              🏰 Cuộn lên để ngắm đỉnh tháp (Tầng 16)
+            </span>
+            
+            {/* Quick jump to active position */}
+            <button
+              onClick={scrollToMyPosition}
+              className="flex items-center space-x-1 text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-lg hover:bg-emerald-500/25 transition active:scale-95"
+            >
+              <Navigation className="w-3 h-3" />
+              <span>Về vị trí Pet</span>
+            </button>
+          </div>
 
-          {/* Connecting Road SVG Line */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none z-0"
-            viewBox="0 0 360 620"
-            fill="none"
+          {/* SCROLLABLE CONTAINER BODY */}
+          <div
+            ref={mapScrollContainerRef}
+            className="overflow-y-auto max-h-[520px] p-4 relative scroll-smooth space-y-4"
           >
-            <path
-              d="M 180 570 Q 90 500 180 430 T 230 290 T 120 160 T 180 50"
-              stroke="rgba(34, 197, 94, 0.25)"
-              strokeWidth="6"
-              strokeDasharray="10 8"
-              strokeLinecap="round"
-            />
-            {/* Active illuminated path */}
-            <path
-              d="M 180 570 Q 90 500 180 430"
-              stroke="#22C55E"
-              strokeWidth="6"
-              strokeLinecap="round"
-              className="drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]"
-            />
-          </svg>
+            {/* Ambient Lighting Background */}
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-          {/* STAGES NODES (Displayed in reverse order from summit down to start, or ground up) */}
-          <div className="relative z-10 flex flex-col-reverse space-y-reverse space-y-12 py-6">
-            {towerStages.map((node) => {
-              const isShaking = shakeLockedDay === node.dayNumber;
+            {/* Summit Banner at Top of Tower */}
+            <div className="text-center py-4 relative z-10 border-b border-dashed border-emerald-500/30 mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 mb-1">
+                <Crown className="w-6 h-6 animate-pulse" />
+              </div>
+              <h3 className="text-xs font-black text-yellow-400 uppercase tracking-widest font-mono">
+                Đỉnh Tháp FORMA (Tầng 16)
+              </h3>
+              <p className="text-[10px] text-gray-400 font-mono">Chinh phục toàn bộ để mở khóa danh hiệu Chiến Binh Tối Thượng</p>
+            </div>
 
-              return (
-                <div
-                  key={node.dayNumber}
-                  style={{
-                    marginLeft: `${node.positionX - 12}%`,
-                  }}
-                  className={`relative flex flex-col items-center transition-transform duration-300 ${
-                    isShaking ? 'animate-bounce' : ''
-                  }`}
-                >
-                  {/* PET ON CURRENT ACTIVE STAGE */}
-                  {node.status === 'active' && (
-                    <div className="absolute -top-12 z-20 flex flex-col items-center animate-bounce">
-                      <div className="bg-black/90 border border-emerald-400 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold text-emerald-400 shadow-glow-green flex items-center space-x-1">
-                        <span>🐉 BẠN Ở ĐÂY</span>
-                      </div>
-                      <div className="w-2 h-2 bg-emerald-400 rotate-45 -mt-1" />
-                    </div>
-                  )}
+            {/* STAGES NODES: REVERSE ORDER (From Summit Tầng 16 down to Tầng 1 Ground) */}
+            <div className="relative z-10 flex flex-col-reverse space-y-reverse space-y-10 py-4">
+              {towerStages.map((node) => {
+                const isShaking = shakeLockedDay === node.dayNumber;
+                const isActive = node.status === 'active';
 
-                  {/* NODE BUTTON */}
-                  <button
-                    onClick={() => handleSelectDay(node)}
-                    className={`relative w-16 h-16 rounded-full flex flex-col items-center justify-center transition-all duration-300 active:scale-95 shadow-xl ${
-                      node.status === 'completed'
-                        ? 'bg-gradient-to-b from-emerald-500 to-emerald-700 text-black border-2 border-emerald-300 shadow-glow-green/50'
-                        : node.status === 'active'
-                        ? 'bg-emerald-500 text-black border-4 border-white shadow-glow-green animate-pulse ring-4 ring-emerald-500/40'
-                        : 'bg-[#151D18] text-gray-500 border-2 border-white/10 opacity-70 hover:opacity-90'
+                return (
+                  <div
+                    key={node.dayNumber}
+                    ref={isActive ? activeNodeRef : null}
+                    style={{
+                      marginLeft: `${node.positionX - 12}%`,
+                    }}
+                    className={`relative flex flex-col items-center transition-transform duration-300 ${
+                      isShaking ? 'animate-bounce' : ''
                     }`}
                   >
-                    {/* Node Icon / Number */}
-                    {node.status === 'completed' ? (
-                      <Check className="w-7 h-7 stroke-[3] text-black" />
-                    ) : node.status === 'active' ? (
-                      <Dumbbell className="w-7 h-7 stroke-[2.5] text-black" />
-                    ) : node.isBoss ? (
-                      <Crown className="w-6 h-6 text-yellow-500" />
-                    ) : (
-                      <Lock className="w-5 h-5 text-gray-500" />
+                    {/* PET ON CURRENT ACTIVE STAGE */}
+                    {isActive && (
+                      <div className="absolute -top-12 z-20 flex flex-col items-center animate-bounce">
+                        <div className="bg-black/90 border border-emerald-400 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold text-emerald-400 shadow-glow-green flex items-center space-x-1">
+                          <span>🐉 BẠN Ở ĐÂY</span>
+                        </div>
+                        <div className="w-2 h-2 bg-emerald-400 rotate-45 -mt-1" />
+                      </div>
                     )}
 
-                    {/* Day number badge */}
-                    <span
-                      className={`text-[9px] font-mono font-black ${
-                        node.status === 'completed' || node.status === 'active'
-                          ? 'text-black'
-                          : 'text-gray-400'
+                    {/* NODE CIRCLE BUTTON */}
+                    <button
+                      onClick={() => handleSelectDay(node)}
+                      className={`relative w-16 h-16 rounded-full flex flex-col items-center justify-center transition-all duration-300 active:scale-95 shadow-xl ${
+                        node.status === 'completed'
+                          ? 'bg-gradient-to-b from-emerald-500 to-emerald-700 text-black border-2 border-emerald-300 shadow-glow-green/50'
+                          : isActive
+                          ? 'bg-emerald-500 text-black border-4 border-white shadow-glow-green animate-pulse ring-4 ring-emerald-500/40'
+                          : node.isRewardChest
+                          ? 'bg-gradient-to-b from-yellow-600 to-amber-800 text-white border-2 border-yellow-400 shadow-lg'
+                          : 'bg-[#151D18] text-gray-500 border-2 border-white/10 opacity-70 hover:opacity-90'
                       }`}
                     >
-                      TẦNG {node.dayNumber}
-                    </span>
-                  </button>
+                      {/* Node Icon / Number */}
+                      {node.status === 'completed' ? (
+                        <Check className="w-7 h-7 stroke-[3] text-black" />
+                      ) : isActive ? (
+                        <Dumbbell className="w-7 h-7 stroke-[2.5] text-black" />
+                      ) : node.isRewardChest ? (
+                        <Gift className="w-6 h-6 text-yellow-300 animate-pulse" />
+                      ) : node.isBoss ? (
+                        <Crown className="w-6 h-6 text-yellow-500" />
+                      ) : (
+                        <Lock className="w-5 h-5 text-gray-500" />
+                      )}
 
-                  {/* Stars for completed stages */}
-                  {node.status === 'completed' && (
-                    <div className="flex items-center space-x-0.5 mt-1.5">
-                      {Array.from({ length: 3 }).map((_, idx) => (
-                        <Star key={idx} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                      ))}
+                      {/* Day number badge */}
+                      <span
+                        className={`text-[9px] font-mono font-black ${
+                          node.status === 'completed' || isActive
+                            ? 'text-black'
+                            : 'text-gray-400'
+                        }`}
+                      >
+                        TẦNG {node.dayNumber}
+                      </span>
+                    </button>
+
+                    {/* Stars for completed stages */}
+                    {node.status === 'completed' && (
+                      <div className="flex items-center space-x-0.5 mt-1.5">
+                        {Array.from({ length: 3 }).map((_, idx) => (
+                          <Star key={idx} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Stage description pill */}
+                    <div
+                      onClick={() => handleSelectDay(node)}
+                      className={`mt-1.5 px-2.5 py-1 rounded-xl text-center max-w-[160px] cursor-pointer border transition ${
+                        isActive
+                          ? 'bg-black/90 border-emerald-500/50 text-white ring-1 ring-emerald-400/30'
+                          : node.status === 'completed'
+                          ? 'bg-black/60 border-white/10 text-gray-300'
+                          : 'bg-black/40 border-white/5 text-gray-500'
+                      }`}
+                    >
+                      <span className="text-[10px] font-mono font-bold block truncate">
+                        {node.focusTitle}
+                      </span>
+                      <span className="text-[9px] font-mono text-emerald-400">
+                        +{node.expReward} EXP
+                      </span>
                     </div>
-                  )}
-
-                  {/* Stage description pill */}
-                  <div
-                    onClick={() => handleSelectDay(node)}
-                    className={`mt-1.5 px-2.5 py-1 rounded-xl text-center max-w-[150px] cursor-pointer border ${
-                      node.status === 'active'
-                        ? 'bg-black/90 border-emerald-500/50 text-white'
-                        : node.status === 'completed'
-                        ? 'bg-black/60 border-white/10 text-gray-300'
-                        : 'bg-black/40 border-white/5 text-gray-500'
-                    }`}
-                  >
-                    <span className="text-[10px] font-mono font-bold block truncate">
-                      {node.focusTitle}
-                    </span>
-                    <span className="text-[9px] font-mono text-emerald-400">
-                      +{node.expReward} EXP
-                    </span>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* Base of Tower footer note */}
+            <div className="text-center py-2 text-[10px] font-mono text-gray-500 border-t border-white/5">
+              • Chân Tháp Khởi Động •
+            </div>
           </div>
         </div>
       </div>

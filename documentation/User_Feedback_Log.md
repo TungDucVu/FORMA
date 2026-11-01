@@ -107,6 +107,22 @@ $$\text{HP\%} = 100 \times \left(0.25 \times \frac{\text{kcal}}{\text{target\_kc
      - Chuyển sang giao diện tập luyện hiện tại (Thẻ vuốt Tinder/Bumble card stack, tick set 1 2 3, gif hướng dẫn, mẹo tập, nhóm cơ tác động).
      - Bổ sung nút quay lại: **"← Bản Đồ Leo Tháp"** để người dùng có thể quay lại bản đồ tổng quan bất cứ lúc nào.
 
+---
+
+## 7. FEEDBACK FB-20261101-10 (BẢN ĐỒ LEO THÁP LÀ SCROLLABLE CARD)
+
+**Mã phiên ghi nhận:** FB-20261101-10  
+**Chủ đề:** Chuyển đổi khung Bản đồ Leo Tháp thành một Thẻ cuộn mượt mà độc lập (Scrollable Card).
+
+### Yêu cầu chi tiết:
+1. **Khung Card Cuộn Độc Lập (Scrollable Card Container):**
+   - Khung bản đồ tháp có chiều cao cố định (`overflow-y-auto max-h-[560px]`), thanh cuộn tùy chỉnh tối giản, cho phép người dùng lướt ngắm toàn bộ chặng đường từ tầng đáy lên các tầng cao hơn.
+   - Mở rộng lộ trình leo tháp đa tầng (16 tầng / 4 chặng: Thức Tỉnh, Khung Thép, Phá Giới, Đỉnh Phong) với các cột mốc Boss, Rương Thưởng.
+2. **Tự Động Cuộn & Định Vị Vị Trí Hiện Tại:**
+   - Khi mở Tab, bản đồ tự động cuộn đến vị trí Tầng hiện tại mà Pet đang đứng (`scrollIntoView` mượt mà).
+   - Bổ sung nút bấm nổi: *"🎯 Về Vị Trí Của Tôi"* để lập tức quay lại tầng đang tập nếu người dùng cuộn đi khám phá các tầng khác.
+
+
 
 
 
