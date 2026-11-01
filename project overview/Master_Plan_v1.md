@@ -27,9 +27,12 @@ Nhằm tối ưu sự tập trung của người dùng và tạo phong cách cô
    - Thể hiện đầy đủ trạng thái **[Hiện tại / Tổng]** cho:
      - **Tập luyện:** Ngày tập trong tuần (Ví dụ: 3/4 buổi), Số bài đã tập / Tổng số bài (4/6 bài), Số Sets hoàn thành.
      - **Macro:** 4 chỉ số bắt buộc: Kcal (Hiện tại / Mục tiêu), Protein (g), Carb (g), Fat (g).
-2. **Tab 2: Tập luyện (Workout)**
-   - Danh sách thẻ bài tập hôm nay: Ảnh GIF động kỹ thuật chuẩn, Sets, Reps, Nhóm cơ tác động, Tips tập luyện.
-   - Nút tương tác Tap/Swipe hoàn thành từng set.
+2. **Tab 2: Tập luyện (Gamified Tower Climb / Candy Crush Saga Map)**
+   - **Bản Đồ Leo Tháp (Tower Map):** Lộ trình uốn lượn chia thành từng Chặng (Chapters) và Tầng tương ứng với từng ngày tập.
+     - Node ngày đã hoàn thành (Xanh Emerald, 3 Sao ⭐⭐⭐, Checkmark).
+     - Node ngày hiện tại (Pulsing glow, linh vật Pet đứng trực tiếp tại vị trí này, nút "Tập Ngay").
+     - Node ngày chưa mở khóa (Khóa 🔒).
+   - **Chi Tiết Buổi Tập Của Ngày:** Khi click vào bất kỳ ô ngày nào, mở giao diện bài tập (Thẻ vuốt Tinder/Bumble card stack, tick hoàn thành set 1-2-3, GIF động, tips tập, nhóm cơ) kèm nút "← Bản Đồ Leo Tháp" để quay lại tổng quan bất kỳ lúc nào.
 3. **Nút Camera ở giữa (Quick Snap Placeholder)**
    - Mở modal chụp ảnh món ăn hoặc check-in vóc dáng nhanh.
 4. **Tab 3: Macro (Dinh dưỡng & Bữa ăn)**

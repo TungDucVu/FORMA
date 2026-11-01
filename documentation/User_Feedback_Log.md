@@ -87,5 +87,26 @@ $$\text{HP\%} = 100 \times \left(0.25 \times \frac{\text{kcal}}{\text{target\_kc
 3. **Cơ chế chỉnh sửa:**
    - Tất cả các Card thông tin đều cho phép click trực tiếp để mở giao diện sửa dữ liệu, sau đó bấm **"Xác nhận"** để lưu thay đổi ngay lập tức.
 
+---
+
+## 6. FEEDBACK FB-20261101-09 (TAB TẬP LUYỆN: BẢN ĐỒ LEO THÁP CANDY CRUSH / SAGA MAP)
+
+**Mã phiên ghi nhận:** FB-20261101-09  
+**Chủ đề:** Tái thiết kế Tab Tập luyện theo phong cách Trò chơi Leo Tháp (Candy Crush / Saga Map). Ban đầu hiển thị Bản đồ phân chia thành từng chặng tương ứng với từng ngày; khi bấm vào ô ngày sẽ mở ra giao diện tập luyện thẻ vuốt tương tác như hiện tại.
+
+### Yêu cầu chi tiết:
+1. **Giao diện Bản đồ Leo Tháp (Tower Climb / Saga Map):**
+   - Thiết kế con đường leo tháp uốn lượn zíc zắc (Winding path / Stepping stones) phân bổ theo các Chặng (Chapters) và Tầng/Ngày (Days).
+   - Mỗi mốc/node ngày thể hiện trạng thái:
+     - **Đã hoàn thành (Completed):** Sáng ngọc bích `bg-emerald-500`, có số sao đạt được (⭐⭐⭐) và dấu kiểm.
+     - **Hiện tại (Current Active):** Node phát sáng mạnh mẽ (`shadow-glow-green`), hiệu ứng nhấp nháy, có Avatar/Pet đứng ngay tại vị trí này để cổ vũ.
+     - **Chưa mở khóa (Locked):** Biểu tượng ổ khóa `🔒`, nền tối tinh tế.
+   - Hiển thị thông số tổng thể: Tầng hiện tại, Tổng số sao tích lũy, EXP thưởng khi vượt tầng.
+2. **Chuyển tiếp Vào Bài Tập Của Ngày (Day Workout View):**
+   - Khi bấm vào bất kỳ node ngày nào (hoặc nút "Tiếp Tục Leo Tháp"):
+     - Chuyển sang giao diện tập luyện hiện tại (Thẻ vuốt Tinder/Bumble card stack, tick set 1 2 3, gif hướng dẫn, mẹo tập, nhóm cơ tác động).
+     - Bổ sung nút quay lại: **"← Bản Đồ Leo Tháp"** để người dùng có thể quay lại bản đồ tổng quan bất cứ lúc nào.
+
+
 
 
