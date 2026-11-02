@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Flame, Check, Maximize2, ChevronLeft, ChevronRight, X, Calendar, Trophy, Dumbbell } from 'lucide-react';
+import { Flame, Check, Maximize2, ChevronLeft, ChevronRight, X, Calendar, Trophy, Dumbbell, RotateCcw } from 'lucide-react';
 import { PetCompanionCard, PetState } from './PetCompanionCard';
 
 interface TodayProgressProps {
@@ -23,6 +23,7 @@ interface TodayProgressProps {
   };
   onGoToWorkout: () => void;
   onGoToMacro: () => void;
+  onReopenOnboarding?: () => void;
 }
 
 interface MonthData {
@@ -110,6 +111,7 @@ export const TodayProgressDashboard: React.FC<TodayProgressProps> = ({
   macro,
   onGoToWorkout,
   onGoToMacro,
+  onReopenOnboarding,
 }) => {
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
   const [monthOffset, setMonthOffset] = useState<number>(0); // 0 = current, -1 = prev, -2 = 2 months ago
@@ -120,7 +122,26 @@ export const TodayProgressDashboard: React.FC<TodayProgressProps> = ({
   const dayHeaders = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 
   return (
-    <div className="flex flex-col space-y-3.5 pb-2 min-h-full">
+    <div className="flex flex-col space-y-3 pb-2 min-h-full">
+      {/* QUICK ONBOARDING TRIGGER BUTTON (MÀN HÌNH HÔM NAY) */}
+      {onReopenOnboarding && (
+        <div className="flex items-center justify-between px-1">
+          <div className="flex items-center space-x-1.5 text-[10px] font-mono text-gray-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Hôm nay: {workout.dayName}</span>
+          </div>
+
+          <button
+            onClick={onReopenOnboarding}
+            className="flex items-center space-x-1 py-1 px-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-mono font-bold text-emerald-400 hover:bg-emerald-500/25 active:scale-95 transition"
+            title="Mở lại luồng Onboarding để thiết lập lại Pet & Thể trạng"
+          >
+            <RotateCcw className="w-3 h-3" />
+            <span>Thiết Lập Onboarding</span>
+          </button>
+        </div>
+      )}
+
       {/* ============================================================ */}
       {/* CARD 1: CARD STREAK THU NHỎ (CAO = 1/4 CARD PET - CHẤM TRÒN) */}
       {/* ============================================================ */}

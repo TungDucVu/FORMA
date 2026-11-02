@@ -6,7 +6,7 @@ import { WorkoutTab } from '@/components/WorkoutTab';
 import { MacroTab } from '@/components/MacroTab';
 import { ProfileTab } from '@/components/ProfileTab';
 import { CameraUploadModal } from '@/components/CameraUploadModal';
-import { OnboardingModal } from '@/components/OnboardingModal';
+import { OnboardingModal, OnboardingData } from '@/components/OnboardingModal';
 import { PetState } from '@/components/PetCompanionCard';
 import {
   Calendar,
@@ -160,6 +160,7 @@ export default function Home() {
             macro={macroState}
             onGoToWorkout={() => setActiveTab('workout')}
             onGoToMacro={() => setActiveTab('macro')}
+            onReopenOnboarding={() => setShowOnboarding(true)}
           />
         )}
 
@@ -249,16 +250,55 @@ export default function Home() {
       {/* ONBOARDING MODAL */}
       <OnboardingModal
         isOpen={showOnboarding}
-        onComplete={(data) => {
+        onComplete={(data: OnboardingData) => {
           setShowOnboarding(false);
+
+          // Update Pet state from Onboarding
+          setPetState((p) => ({
+            ...p,
+            name: data.petName || 'Drago',
+            species: data.petSpecies || 'drago',
+          }));
+
+          // Calculate Dynamic Macro Targets based on TDEE and Goal
+          const tdee = data.calculatedTdee || 2400;
+          const weight = data.weight_kg || 68;
+          let calTarget = tdee;
+          let proTarget = Math.round(weight * 2.2);
+          let fatTarget = Math.round((tdee * 0.25) / 9);
+
           if (data.primary_goal === 'bulk') {
-            setMacroState({
-              calories: { current: 1850, total: 2750 },
-              protein: { current: 142, total: 185 },
-              carb: { current: 205, total: 310 },
-              fat: { current: 51, total: 70 },
-            });
+            calTarget = tdee + 350;
+            proTarget = Math.round(weight * 2.2);
+            fatTarget = Math.round((calTarget * 0.25) / 9);
+          } else if (data.primary_goal === 'cut') {
+            calTarget = Math.max(1500, tdee - 400);
+            proTarget = Math.round(weight * 2.3);
+            fatTarget = Math.round((calTarget * 0.22) / 9);
+          } else if (data.primary_goal === 'recomp') {
+            calTarget = tdee;
+            proTarget = Math.round(weight * 2.2);
+            fatTarget = Math.round((calTarget * 0.25) / 9);
+          } else if (data.primary_goal === 'strength') {
+            calTarget = tdee + 150;
+            proTarget = Math.round(weight * 2.0);
+            fatTarget = Math.round((calTarget * 0.25) / 9);
           }
+
+          const carbTarget = Math.max(50, Math.round((calTarget - proTarget * 4 - fatTarget * 9) / 4));
+
+          const newMacroState = {
+            calories: { current: macroState.calories.current, total: calTarget },
+            protein: { current: macroState.protein.current, total: proTarget },
+            carb: { current: macroState.carb.current, total: carbTarget },
+            fat: { current: macroState.fat.current, total: fatTarget },
+          };
+
+          setMacroState(newMacroState);
+
+          // Recalculate Pet HP
+          const newHp = calculatePetHp(newMacroState);
+          setPetState((p) => ({ ...p, hp: newHp }));
         }}
       />
     </div>

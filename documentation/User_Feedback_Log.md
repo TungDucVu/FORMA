@@ -134,6 +134,33 @@ $$\text{HP\%} = 100 \times \left(0.25 \times \frac{\text{kcal}}{\text{target\_kc
    - Loại bỏ hiển thị thanh cuộn mặc định của trình duyệt (`scrollbar-width: none`, `-ms-overflow-style: none`, `::-webkit-scrollbar { display: none }`).
    - Áp dụng triệt để cho Card Bản đồ Leo Tháp, các khung danh sách và view chính của app, mang lại cảm giác ứng dụng di động native đẳng cấp và tinh gọn.
 
+---
+
+## 9. FEEDBACK FB-20261102-12 (TRIỂN KHAI TOÀN DIỆN MÀN HÌNH ONBOARDING ZERO-KEYBOARD & NÚT DEBUG)
+
+**Mã phiên ghi nhận:** FB-20261102-12  
+**Chủ đề:** Hiện thực hóa quy trình Onboarding hoàn chỉnh 4 bước: Khởi tạo Pet, Chỉ số Vóc dáng (Zero-Keyboard Wheel Picker), Mục tiêu & Lịch tập, Kích hoạt AI (Loading & Confetti). Bổ sung nút Bỏ qua Debug trên Onboarding và Nút vào lại Onboarding tại màn hình Hôm nay.
+
+### Yêu cầu chi tiết:
+1. **Bước 1: Chào Mừng & Khởi Tạo Pet (Welcome & Character Creation):**
+   - Giới thiệu ngắn về Pet đồng hành cùng tiến hóa.
+   - Chọn 1 trong 3 linh vật khởi đầu: Rồng Lửa (Drago), Robot Chiến Binh (Cyber Mech), Quái Thú Đá (Titan).
+   - Chọn tên Pet qua gợi ý nhanh (Quick chips) hoặc tùy chỉnh.
+2. **Bước 2: Chỉ Số Vóc Dáng Cơ Bản (Physical Metrics - Zero-Keyboard):**
+   - Giới tính sinh học: Chip chọn [Nam] / [Nữ].
+   - Tuổi: Thanh cuộn số Wheel Picker (16 - 70 tuổi).
+   - Chiều cao & Cân nặng: Thanh cuộn số Wheel Picker (140 - 210 cm, 40 - 140 kg). Tuyệt đối không cần gõ bàn phím ảo.
+3. **Bước 3: Mục Tiêu & Lịch Tập (Goal & Schedule):**
+   - 4 Card mục tiêu trực quan: Giảm mỡ (Cut), Tăng cơ (Bulk), Tăng cơ giảm mỡ (Recomp), Tăng sức bền (Endurance).
+   - Nút chọn nhanh số buổi tập/tuần: [2], [3], [4], [5], [6] buổi.
+4. **Bước 4: Kích Hoạt AI & Thành Công (AI Engine Loading & Confetti Success):**
+   - Trạng thái phân tích thể trạng giả lập 1.5s với thanh loading động.
+   - Màn hình chúc mừng với hiệu ứng hạt pháo hoa (Confetti) và nút "Bắt Đầu Ngay 🚀" chuyển vào Dashboard.
+5. **Nút Hỗ Trợ Debug & Thao Tác Nhanh:**
+   - **Nút "⚡ Bỏ qua (Debug)":** Nằm ở góc trên màn hình Onboarding để dev/user có thể nhảy nhanh vào app với dữ liệu mẫu.
+   - **Nút "🔄 Thiết lập Onboarding":** Nằm ngay trên màn hình chính "Hôm nay" để mở lại luồng Onboarding bất kỳ lúc nào.
+
+
 
 
 

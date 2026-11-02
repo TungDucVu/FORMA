@@ -129,9 +129,13 @@ flowchart LR
     end
 ```
 
-#### 🌟 Feature 1: Onboarding (Sinh Ra Nhân Vật Đầu Tiên)
-- Sau khi điền xong các chỉ số tối thiểu (Tuổi, chiều cao, cân nặng, mục tiêu), hệ thống cho user **chọn và đặt tên cho nhân vật khởi đầu** (Ví dụ: Chú Rồng Lửa Con, Robot Cyber-Fit, hoặc Linh Vật Quái Thú).
-- Nhân vật này sẽ có chỉ số xuất phát (Body Shape, HP, STR) **khớp hoàn toàn với vóc dáng hiện tại của user**.
+#### 🌟 Feature 1: Onboarding Hoàn Chỉnh (Zero-Keyboard & Khởi Tạo Pet)
+- **Bước 1: Chào Mừng & Khởi Tạo Pet:** Chọn hình thái khởi đầu (Rồng Lửa Drago / Cyber Mech / Quái Thú Titan) và đặt tên Pet qua gợi ý nhanh.
+- **Bước 2: Chỉ Số Vóc Dáng Cơ Bản (Zero-Keyboard):** Chọn giới tính, thanh cuộn Wheel Picker cho Tuổi (16-70t), Chiều cao (140-210cm), Cân nặng (40-140kg) — không dùng bàn phím.
+- **Bước 3: Mục Tiêu & Lịch Tập:** 4 Card mục tiêu trực quan (Tăng cơ, Giảm mỡ, Recomp, Tăng sức bền) và nút chọn số buổi/tuần (2..6 buổi).
+- **Bước 4: Kích Hoạt AI & Confetti:** Trạng thái phân tích thể trạng giả lập 1.5s, hiệu ứng pháo hoa Confetti và khởi tạo Dashboard ngay lập tức.
+- **Tiện ích Debug:** Nút *"⚡ Bỏ qua (Debug)"* trên màn hình Onboarding và nút *"🔄 Mở lại Onboarding"* trên màn hình Hôm Nay.
+- Nhân vật ảo có chỉ số xuất phát (Body Shape, HP, STR) khớp hoàn toàn với thể trạng của user.
 
 #### 🏋️ Feature 2: Interactive Workout ➔ Cày XP Cho Pet
 - Mỗi khi user bấm **Swipe to Done** hoàn thành một bài tập trên giao diện:
